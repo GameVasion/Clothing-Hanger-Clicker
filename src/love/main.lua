@@ -4,6 +4,7 @@ function love.load()
     timer = 0
     clicks = 0
     CHPS = 0
+    clickUpgrade = 0
     love.window.setMode(1280, 720, {resizable=true, vsync=true, minwidth=640, minheight=360})
     -- load libriries 
     baton = require "lib.baton"
@@ -32,7 +33,7 @@ end
 
 function love.mousepressed(x, y, button, istouch)
     if button == 1 then
-       clicks = clicks + 1
+       clicks = clicks + 1 + clickUpgrade
     end
 end
 
@@ -44,11 +45,15 @@ function love.keypressed(key)
     end
     if key == "escape" then
         love.event.quit()
-    end
-    if key == "1" then
+    elseif key == "1" then
         if clicks >= 10 then
             clicks = clicks - 10
             CHPS = CHPS + 1
+        end
+    elseif key == "2" then
+        if clicks >= 50 then
+            clicks = clicks - 50
+            clickUpgrade = clickUpgrade + 1
         end
     end
 end
