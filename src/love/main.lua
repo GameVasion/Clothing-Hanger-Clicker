@@ -31,16 +31,14 @@ function love.load()
 end
 
 function love.update(dt)
+    input:update()
     timer = timer + dt
     if timer >= 1.4 then
         clicks = clicks + CHPS
         timer = 0  
-    end  
-end
-
-function love.mousepressed(x, y, button, istouch)
-    if button == 1 then
-       clicks = clicks + 1 + clickUpgrade
+    end
+    if input:pressed("gameClick") then
+        clicks = clicks + 1 + clickUpgrade
     end
 end
 
