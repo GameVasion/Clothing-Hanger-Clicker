@@ -25,6 +25,9 @@ function love.load()
     -- load settings
     input = require "settings.input"
 
+    clothingHanger = graphics.newImage(love.graphics.newImage(graphics.imagePath("clothing_hanger")))
+    clothingHanger.x, clothingHanger.y = 660, 350
+
 end
 
 function love.update(dt)
@@ -61,7 +64,7 @@ function love.keypressed(key)
         else
             if clicks >= shop1Price then
                 shop1Owned = shop1Owned + 1
-                clicks = clicks - shop1Owned
+                clicks = clicks - shop1Price
                 CHPS = CHPS + 1
             end
         end
@@ -96,4 +99,5 @@ function love.draw()
     else
         love.graphics.print("\n\nShop2 price (Clicker power): " .. shop2Price) 
     end
+    clothingHanger:draw()
 end
