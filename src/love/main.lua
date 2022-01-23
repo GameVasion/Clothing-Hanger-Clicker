@@ -10,6 +10,7 @@ function love.load()
     shop2Price = 50
     shop2Owned = 0
     love.window.setMode(1280, 720, {resizable=true, vsync=true, minwidth=640, minheight=360})
+    
     -- load libriries 
     baton = require "lib.baton"
     ini = require "lib.ini"
@@ -17,6 +18,7 @@ function love.load()
     
     -- load states
     shopMenu = require "states.shop"
+    clickerMenu = require "states.clicker"
 
     -- load modules
     graphics = require "modules.graphics"
@@ -27,20 +29,25 @@ function love.load()
 
     clothingHanger = graphics.newImage(love.graphics.newImage(graphics.imagePath("clothing_hanger")))
     clothingHanger.x, clothingHanger.y = 660, 350
+    Gamestate.switch(clicker)
 
 end
 
 function love.update(dt)
     input:update()
+    Gamestate.update(dt)
+
     timer = timer + dt
     if timer >= 1.4 then
         clicks = clicks + CHPS
         timer = 0  
     end
-    if input:pressed("gameClick") then
-        clicks = clicks + 1 + clickUpgrade
-    end
+    
+
+    mouseX = love.mouse.getX()
+    mouseY = love.mouse.getY()
 end
+
 
 function love.keypressed(key)
 	if key == "6" then
@@ -81,21 +88,31 @@ function love.keypressed(key)
                 clickUpgrade = clickUpgrade + 1
             end
         end
+    elseif key == "s" then
+        --Gamestate.switch(shopMenu)
+    else
+        Gamestate.keypressed(key)
     end
 end
 
+function love.mousepressed(x, y, button, istouch, presses)
+	Gamestate.mousepressed(x, y, button, istouch, presses)
+end
+
 function love.draw()
+    Gamestate.draw()
     love.graphics.print("Clicks: " .. clicks)
     if shop1Owned >= 1 then
         love.graphics.print("\nShop1 price: " .. shop1Price * (shop1Owned * 1.1)) -- I hate math
     else
         love.graphics.print("\nShop1 price: " .. shop1Price)
     end
-
+    
     if shop2Owned >= 1 then
         love.graphics.print("\n\nShop2 price (Clicker power): " .. shop2Price * (shop2Owned * 1.1)) 
     else
         love.graphics.print("\n\nShop2 price (Clicker power): " .. shop2Price) 
     end
+    love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY)
     clothingHanger:draw()
 end
