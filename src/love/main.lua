@@ -16,7 +16,7 @@ function love.load()
 	Gamestate = require "lib.gamestate"
     
     -- load states
-    clickerMenu = require "states.clicker"
+    shopMenu = require "states.shop"
 
     -- load modules
     graphics = require "modules.graphics"
