@@ -1,7 +1,7 @@
 clicker = {}
 
 function clicker.load()
-
+    
 end
 
 function clicker.update(dt)
@@ -14,4 +14,12 @@ function clicker.update(dt)
             clicks = clicks + 1 + clickUpgrade
         end
     end
+    --[[
+    if input:pressed("shopButton") then
+        Gamestate.switch(shopMenu)
+    end
+    ]]--
+end
+function clicker.draw()
+    clothingHanger:draw()
 end

@@ -1,20 +1,13 @@
 local timer
 
 function love.load()
-    timer = 0
-    clicks = 0
-    CHPS = 0
-    clickUpgrade = 0
-    shop1Price = 10
-    shop1Owned = 0
-    shop2Price = 50
-    shop2Owned = 0
     love.window.setMode(1280, 720, {resizable=true, vsync=true, minwidth=640, minheight=360})
     
     -- load libriries 
     baton = require "lib.baton"
     ini = require "lib.ini"
 	Gamestate = require "lib.gamestate"
+    lume = require "lib.lume"
     
     -- load states
     shopMenu = require "states.shop"
@@ -23,13 +16,48 @@ function love.load()
     -- load modules
     graphics = require "modules.graphics"
     status = require "modules.status"
+    input = require "modules.input"
 
-    -- load settings
-    input = require "settings.input"
+    function saveGame()
+        data = {}
+        data.saveGameMoment = {
+            saveClicks = clicks,
+            saveShop1Owned = shop1Owned,
+            saveShop2Owned = shop2Owned,
+            saveCHPS = CHPS,
+            saveClickUpgrade = clickUpgrade,
+            saveVer = "0.1.0"
+        }
+    
+        serialized = lume.serialize(data)
+        love.filesystem.write("savedata.chcsave", serialized)
+    end
 
     clothingHanger = graphics.newImage(love.graphics.newImage(graphics.imagePath("clothing_hanger")))
     clothingHanger.x, clothingHanger.y = 660, 350
+
+    timer = 0
+    shop1Price = 10
+    shop2Price = 50
+    if love.filesystem.getInfo("savedata.chcsave") then
+        file = love.filesystem.read("savedata.chcsave")
+        data = lume.deserialize(file)
+        saveVer = data.saveGameMoment.saveVersion
+        clicks = data.saveGameMoment.saveClicks
+        CHPS = data.saveGameMoment.saveCHPS
+        clickUpgrade = data.saveGameMoment.saveClickUpgrade
+        shop1Owned = data.saveGameMoment.saveShop1Owned
+        shop2Owned = data.saveGameMoment.saveShop2Owned
+    else
+        clicks = 0
+        CHPS = 0
+        clickUpgrade = 0
+        shop1Owned = 0
+        shop2Owned = 0
+    end
+
     Gamestate.switch(clicker)
+    
 
 end
 
@@ -43,22 +71,22 @@ function love.update(dt)
         timer = 0  
     end
     
-
     mouseX = love.mouse.getX()
     mouseY = love.mouse.getY()
 end
-
 
 function love.keypressed(key)
 	if key == "6" then
 		love.filesystem.createDirectory("screenshots")
 
 		love.graphics.captureScreenshot("screenshots/" .. os.time() .. ".png")
-    end
-
-    if key == "escape" then
+    elseif key == "escape" then
+        saveGame()
         love.event.quit()
-    elseif key == "1" then
+    else
+        Gamestate.keypressed(key)
+    end
+    if key == "1" then
         if shop1Owned >= 1 then
             if clicks >= shop1Price * (shop1Owned * 1.1) then
                 price = shop1Price * (shop1Owned * 1.1)
@@ -88,10 +116,6 @@ function love.keypressed(key)
                 clickUpgrade = clickUpgrade + 1
             end
         end
-    elseif key == "s" then
-        --Gamestate.switch(shopMenu)
-    else
-        Gamestate.keypressed(key)
     end
 end
 
@@ -102,6 +126,8 @@ end
 function love.draw()
     Gamestate.draw()
     love.graphics.print("Clicks: " .. clicks)
+    
+    love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY)
     if shop1Owned >= 1 then
         love.graphics.print("\nShop1 price: " .. shop1Price * (shop1Owned * 1.1)) -- I hate math
     else
@@ -113,6 +139,8 @@ function love.draw()
     else
         love.graphics.print("\n\nShop2 price (Clicker power): " .. shop2Price) 
     end
-    love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY)
-    clothingHanger:draw()
+end
+
+function love.quit()
+    saveGame()
 end
