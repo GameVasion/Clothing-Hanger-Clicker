@@ -1,25 +1,25 @@
-clicker = {}
+return {
+    load = function()
 
-function clicker.load()
-    
-end
+    end,
 
-function clicker.update(dt)
-    if input:pressed("gameClick") then
-        if input:getActiveDevice() ~= "joy" then
-            if mouseX >= 424 and mouseX <= 893 and mouseY >= 236 and mouseY <= 466 then
+    update = function(dt)
+        if input:pressed("gameClick") then
+            if input:getActiveDevice() ~= "joy" then
+                if mouseX >= 390 and mouseX <= 930 and mouseY >= 211 and mouseY <= 485 then
+                    clicks = clicks + 1 + clickUpgrade
+                end
+            else
                 clicks = clicks + 1 + clickUpgrade
             end
-        else
-            clicks = clicks + 1 + clickUpgrade
         end
+        
+        if input:pressed("shopButton") then
+            Gamestate.switch(shopMenu)
+        end
+    end,
+
+    draw = function()
+        clothingHanger:draw()
     end
-    --[[
-    if input:pressed("shopButton") then
-        Gamestate.switch(shopMenu)
-    end
-    ]]--
-end
-function clicker.draw()
-    clothingHanger:draw()
-end
+}

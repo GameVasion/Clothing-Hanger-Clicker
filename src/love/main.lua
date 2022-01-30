@@ -12,6 +12,7 @@ function love.load()
     -- load states
     shopMenu = require "states.shop"
     clickerMenu = require "states.clicker"
+    startMenu = require "states.startMenu"
 
     -- load modules
     graphics = require "modules.graphics"
@@ -25,8 +26,7 @@ function love.load()
             saveShop1Owned = shop1Owned,
             saveShop2Owned = shop2Owned,
             saveCHPS = CHPS,
-            saveClickUpgrade = clickUpgrade,
-            saveVer = "0.1.0"
+            saveClickUpgrade = clickUpgrade
         }
     
         serialized = lume.serialize(data)
@@ -42,7 +42,6 @@ function love.load()
     if love.filesystem.getInfo("savedata.chcsave") then
         file = love.filesystem.read("savedata.chcsave")
         data = lume.deserialize(file)
-        saveVer = data.saveGameMoment.saveVersion
         clicks = data.saveGameMoment.saveClicks
         CHPS = data.saveGameMoment.saveCHPS
         clickUpgrade = data.saveGameMoment.saveClickUpgrade
@@ -56,9 +55,8 @@ function love.load()
         shop2Owned = 0
     end
 
-    Gamestate.switch(clicker)
+    Gamestate.switch(startMenu)
     
-
 end
 
 function love.update(dt)
@@ -86,37 +84,6 @@ function love.keypressed(key)
     else
         Gamestate.keypressed(key)
     end
-    if key == "1" then
-        if shop1Owned >= 1 then
-            if clicks >= shop1Price * (shop1Owned * 1.1) then
-                price = shop1Price * (shop1Owned * 1.1)
-                shop1Owned = shop1Owned + 1
-                clicks = clicks - price
-                CHPS = CHPS + 1
-            end
-        else
-            if clicks >= shop1Price then
-                shop1Owned = shop1Owned + 1
-                clicks = clicks - shop1Price
-                CHPS = CHPS + 1
-            end
-        end
-    elseif key == "2" then
-        if shop2Owned >= 1 then
-            if clicks >= shop2Price * (shop2Owned * 1.1) then
-                price = shop2Price * (shop2Owned * 1.1)
-                shop2Owned = shop2Owned + 1
-                clicks = clicks - price
-                clickUpgrade = clickUpgrade + 1
-            end
-        else
-            if clicks >= shop2Price then
-                shop2Owned = shop2Owned + 1
-                clicks = clicks - shop2Price
-                clickUpgrade = clickUpgrade + 1
-            end
-        end
-    end
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
@@ -125,20 +92,12 @@ end
 
 function love.draw()
     Gamestate.draw()
-    love.graphics.print("Clicks: " .. clicks)
+    if Gamestate.current() ~= startMenu then
+        love.graphics.print("Clicks: " .. clicks)
+    end
     
     love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY)
-    if shop1Owned >= 1 then
-        love.graphics.print("\nShop1 price: " .. shop1Price * (shop1Owned * 1.1)) -- I hate math
-    else
-        love.graphics.print("\nShop1 price: " .. shop1Price)
-    end
     
-    if shop2Owned >= 1 then
-        love.graphics.print("\n\nShop2 price (Clicker power): " .. shop2Price * (shop2Owned * 1.1)) 
-    else
-        love.graphics.print("\n\nShop2 price (Clicker power): " .. shop2Price) 
-    end
 end
 
 function love.quit()
