@@ -5,7 +5,6 @@ function love.load()
     
     -- load libriries 
     baton = require "lib.baton"
-    ini = require "lib.ini"
 	Gamestate = require "lib.gamestate"
     lume = require "lib.lume"
     
