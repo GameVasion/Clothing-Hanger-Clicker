@@ -39,18 +39,10 @@ return {
 
     update = function(dt)
         if input:pressed("gameClick") then
-            if input:getActiveDevice() ~= "joy" then
-                if mouseX >= 300 and mouseX <= 350 and mouseY >= 140 and mouseY <= 190 then
-                    shop1buy()
-                elseif mouseX >= 400 and mouseX <= 450 and mouseY >= 140 and mouseY <= 190 then
-                    shop2buy()
-                end
-            else
-                if buttonSelection == 1 then
-                    shop1buy()
-                elseif buttonSelection == 2 then
-                    shop2buy()
-                end
+            if (mouseX >= 300 and mouseX <= 350 and mouseY >= 140 and mouseY <= 190) or buttonSelection == 1 then
+                shop1buy()
+            elseif (mouseX >= 400 and mouseX <= 450 and mouseY >= 140 and mouseY <= 190) or buttonSelection == 2 then
+                shop2buy()
             end
         elseif input:pressed("gameRight") then
             if buttonSelection ~= 2 then

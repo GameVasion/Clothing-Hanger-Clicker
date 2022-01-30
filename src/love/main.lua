@@ -7,16 +7,15 @@ function love.load()
     baton = require "lib.baton"
 	Gamestate = require "lib.gamestate"
     lume = require "lib.lume"
+
+    -- load modules
+    graphics = require "modules.graphics"
+    input = require "modules.input"
     
     -- load states
     shopMenu = require "states.shop"
     clickerMenu = require "states.clicker"
     startMenu = require "states.startMenu"
-
-    -- load modules
-    graphics = require "modules.graphics"
-    status = require "modules.status"
-    input = require "modules.input"
 
     function saveGame()
         data = {}
