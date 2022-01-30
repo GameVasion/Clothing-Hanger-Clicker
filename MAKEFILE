@@ -57,4 +57,21 @@ macos: lovefile
 	@mkdir -p build/release
 	@rm -f build/release/clothing-hanger-clicker-macos.zip
 	@cd build/macos; zip -9 -r ../release/clothing-hanger-clicker-macos.zip .
-	
+
+switch: lovefile
+	@rm -rf build/switch
+	@mkdir -p build/switch/switch/clothing-hanger-clicker
+
+	@C:/devkitPro/tools/bin/nacptool.exe --create "Clothing Hanger Clicker" GameVasion "0.1.0" build/switch/clothing-hanger-clicker.nacp
+
+	@mkdir build/switch/romfs
+	@cp build/lovefile/clothing-hanger-clicker.love build/switch/romfs/game.love
+
+	@C:/devkitPro/tools/bin/elf2nro.exe resources/switch/love.elf build/switch/switch/clothing-hanger-clicker/clothing-hanger-clicker.nro --nacp=build/switch/clothing-hanger-clicker.nacp --romfsdir=build/switch/romfs
+
+	@rm -r build/switch/romfs
+	@rm build/switch/clothing-hanger-clicker.nacp
+
+	@mkdir -p build/release
+	@rm -f build/release/clothing-hanger-clicker-switch.zip
+	@cd build/switch; zip -9 -r ../release/clothing-hanger-clicker-switch.zip .
