@@ -9,5 +9,3 @@
 1. Make sure love is installed from [the LÖVE2D website](https://love2d.org/)
 2. Run the batch files included
 > Note: game.bat is for no console, gamec.bat is for console
-
-Nintendo switch support will come when the UI is done
