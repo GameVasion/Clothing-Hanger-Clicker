@@ -9,4 +9,5 @@
 1. Make sure love is installed from [the LÖVE2D website](https://love2d.org/)
 2. Run the batch files included
 > Note: You need to install x64 LÖVE2D for the batch files to work
+
 > Also Note: game.bat is for no console, gamec.bat is for console
