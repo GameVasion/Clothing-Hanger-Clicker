@@ -11,3 +11,5 @@ apktool.bat
 *.jar
 love_decoded
 *.apk
+
+!resources/switch/dependencies.txt
