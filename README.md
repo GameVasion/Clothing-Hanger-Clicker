@@ -12,3 +12,7 @@
 > Note: You need to install x64 LÖVE2D for the batch files to work
 
 > Also Note: game.bat is for no console, gamec.bat is for console
+
+## Compiling
+#### [Nintendo Switch](https://github.com/GameVasionYT/Clothing-Hanger-Clicker/blob/master/docs/SwitchCompiling.md)
+
