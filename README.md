@@ -1,4 +1,5 @@
 # Clothing-Hanger-Clicker
+## No longer updated (For now.) When I decide to work on it again. I will update it.
 ### This is a very VERY early download for it with no UI currently
 #### Game runs best on CONTROLLER. I suggest using it cuz PC KB+M isn't all that great for this
 
