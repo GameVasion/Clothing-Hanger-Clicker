@@ -6,7 +6,7 @@ return {
     update = function(dt)
         if input:pressed("gameClick") then
             if input:getActiveDevice() ~= "joy" then
-                if mouseX >= 390 and mouseX <= 930 and mouseY >= 211 and mouseY <= 485 then
+                if mouseX >= 75 and mouseX <= 600 and mouseY >= 211 and mouseY <= 485 then
                     clicks = clicks + 1 + clickUpgrade
                 end
             else

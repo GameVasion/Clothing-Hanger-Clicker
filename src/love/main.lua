@@ -1,11 +1,10 @@
 local timer
 
-function love.load()
-    love.window.setMode(1280, 720, {resizable=true, vsync=true, minwidth=640, minheight=360})
-    
+function love.load()    
     -- load libriries 
     baton = require "lib.baton"
 	Gamestate = require "lib.gamestate"
+    lovesize = require "lib.lovesize"
     lume = require "lib.lume"
 
     -- load modules
@@ -32,7 +31,7 @@ function love.load()
     end
 
     clothingHanger = graphics.newImage(love.graphics.newImage(graphics.imagePath("clothing_hanger")))
-    clothingHanger.x, clothingHanger.y = 660, 350
+    clothingHanger.x, clothingHanger.y = 335, 350
 
     timer = 0
     shop1Price = 10
@@ -53,12 +52,16 @@ function love.load()
         shop2Owned = 0
     end
 
+    love.window.setMode(720, 620, {resizable=false, vsync=true}) -- resize set to false cuz this game depends on the window size
+    lovesize.set(720, 620)
+
     Gamestate.switch(startMenu)
     
 end
 
 function love.update(dt)
     input:update()
+    graphics.screenBase(lovesize.getWidth(), lovesize.getHeight())
     Gamestate.update(dt)
 
     timer = timer + dt
@@ -84,12 +87,20 @@ function love.keypressed(key)
     end
 end
 
+function love.resize(width, height)
+	lovesize.resize(width, height)
+end
+
 function love.mousepressed(x, y, button, istouch, presses)
 	Gamestate.mousepressed(x, y, button, istouch, presses)
 end
 
 function love.draw()
-    Gamestate.draw()
+    graphics.screenBase(lovesize.getWidth(), lovesize.getHeight())
+        lovesize.begin()
+            Gamestate.draw()
+        lovesize.finish()
+    graphics.screenBase(love.graphics.getWidth(), love.graphics.getHeight())
     if Gamestate.current() ~= startMenu then
         love.graphics.print("Clicks: " .. clicks)
     end

@@ -39,14 +39,19 @@ return {
 
     update = function(dt)
         if input:pressed("gameClick") then
-            if mouseX >= 300 and mouseX <= 350 and mouseY >= 140 and mouseY <= 190 then
+            if mouseX >= 100 and mouseX <= 150 and mouseY >= 140 and mouseY <= 190 then
                 shop1buy()
-            elseif mouseX >= 400 and mouseX <= 450 and mouseY >= 140 and mouseY <= 190 then
+            end
+            if mouseX >= 200 and mouseX <= 250 and mouseY >= 140 and mouseY <= 190 then
                 shop2buy()
-            elseif buttonSelection == 1 then
-                shop1buy()
-            elseif buttonSelection == 2 then
-                shop2buy()
+            end
+            if input:getActiveDevice() == "joy" then
+                if buttonSelection == 1 then
+                    shop1buy()
+                end
+                if buttonSelection == 2 then
+                    shop2buy()
+                end
             end
         elseif input:pressed("gameRight") then
             if buttonSelection ~= 2 then
@@ -64,14 +69,14 @@ return {
     draw = function()
         if input:getActiveDevice() == "joy" then
             if buttonSelection == 1 then 
-                love.graphics.rectangle("line", 295, 135, 60,60)
+                love.graphics.rectangle("line", 95, 135, 60,60)
             elseif buttonSelection == 2 then
-                love.graphics.rectangle("line", 395, 135, 60,60)
+                love.graphics.rectangle("line", 195, 135, 60,60)
             end
         end
 
-        love.graphics.rectangle("fill", 300, 140, 50,50)
-        love.graphics.rectangle("fill", 400, 140, 50,50)
+        love.graphics.rectangle("fill", 100, 140, 50,50)
+        love.graphics.rectangle("fill", 200, 140, 50,50)
 
         if shop1Owned >= 1 then
             love.graphics.print("\nShop1 price: " .. shop1Price * (shop1Owned * 1.1)) -- I hate math
