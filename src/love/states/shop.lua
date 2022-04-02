@@ -79,15 +79,15 @@ return {
         love.graphics.rectangle("fill", 200, 140, 50,50)
 
         if shop1Owned >= 1 then
-            love.graphics.print("\nShop1 price: " .. shop1Price * (shop1Owned * 1.1)) -- I hate math
+            love.graphics.print("\n\nShop1 price: " .. shop1Price * (shop1Owned * 1.1)) -- I hate math
         else
-            love.graphics.print("\nShop1 price: " .. shop1Price)
+            love.graphics.print("\n\nShop1 price: " .. shop1Price)
         end
         
         if shop2Owned >= 1 then
-            love.graphics.print("\n\nShop2 price (Clicker power): " .. shop2Price * (shop2Owned * 1.1)) 
+            love.graphics.print("\n\n\nShop2 price (Clicker power): " .. shop2Price * (shop2Owned * 1.1)) 
         else
-            love.graphics.print("\n\nShop2 price (Clicker power): " .. shop2Price) 
+            love.graphics.print("\n\n\nShop2 price (Clicker power): " .. shop2Price) 
         end
     end
 }

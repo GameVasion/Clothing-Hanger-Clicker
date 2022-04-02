@@ -102,7 +102,10 @@ function love.draw()
         lovesize.finish()
     graphics.screenBase(love.graphics.getWidth(), love.graphics.getHeight())
     if Gamestate.current() ~= startMenu then
-        love.graphics.print("Clicks: " .. clicks)
+        love.graphics.print(
+            "Clicks: " .. clicks ..
+            "\nCHPS: " .. CHPS 
+        )
     end
     
     love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY)

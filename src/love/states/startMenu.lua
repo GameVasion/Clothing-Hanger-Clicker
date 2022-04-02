@@ -10,6 +10,6 @@ return { -- horrible menu lol
     end,
 
     draw = function()
-        love.graphics.printf("Please Press Enter", 320, 360, 200, "center", 0, 3, 3)
+        love.graphics.printf("Please Press Enter", 320, 360, 200, "center", 0, 1, 1)
     end
 }
