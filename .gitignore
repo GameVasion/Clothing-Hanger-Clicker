@@ -5,7 +5,7 @@ resources/win32/love/*
 resources/win64/love/*
 resources/switch/*
 CH-Clicker-Ideas-And-Stuff.txt
-
+*.love
 # Android Stuff
 apktool.bat
 *.jar
