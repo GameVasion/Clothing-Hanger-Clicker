@@ -5,7 +5,9 @@ return baton.new {
         shopButton = {"key:s", "button:back"},
         confirm = {"key:return", "button:start"},
         gameRight = {"button:dpright"},
-        gameLeft = {"button:dpleft"}
+        gameLeft = {"button:dpleft"},
+        speen = {"key:space", "button:y"},
+        weird = {"key:w", "button:x"}
     },
     joystick = love.joystick.getJoysticks()[1]
 }

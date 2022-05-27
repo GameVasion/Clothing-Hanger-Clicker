@@ -64,6 +64,8 @@ function love.load()
         saveVer = 1
     end
 
+    love.window.setIcon(love.image.newImageData("icon.png"))
+
     love.window.setMode(720, 620, {resizable=false, vsync=true}) -- resize set to false cuz this game depends on the window size
     lovesize.set(720, 620)
 

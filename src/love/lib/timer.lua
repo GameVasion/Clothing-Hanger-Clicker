@@ -212,6 +212,10 @@ local function def_tween(func)
 	    local a,b = 7.5625, 1/2.75
 	    return math.min(a*s^2, a*(s-1.5*b)^2 + .75, a*(s-2.25*b)^2 + .9375, a*(s-2.625*b)^2 + .984375)
 	 end,
+	 bounceReverse = function(s)
+		local a,b = 7.5625, 1/2.75
+	    return -math.min(a*s^2, a*(s-1.5*b)^2 + .75, a*(s-2.25*b)^2 + .9375, a*(s-2.625*b)^2 + .984375)
+	 end,
 
 	 elastic = function(s, amp, period)
 	    amp, period = amp and math.max(1, amp) or 1, period or .3
