@@ -30,6 +30,6 @@ return {
     end,
 
     draw = function()
-        --clothingHanger:draw()
+        clothingHanger:draw()
     end
 }

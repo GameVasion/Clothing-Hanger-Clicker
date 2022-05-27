@@ -13,7 +13,6 @@ return { -- horrible menu lol (Ima work on it later ig)
     end,
 
     draw = function()
-        -- print "Press Enter" in the middle of the screen
         love.graphics.print("Press Enter", textPos[1], textPos[2])
     end
 }
