@@ -6,6 +6,7 @@ function love.load()
 	Gamestate = require "lib.gamestate"
     lovesize = require "lib.lovesize"
     lume = require "lib.lume"
+    Timer = require "lib.timer"
 
     -- load modules
     graphics = require "modules.graphics"
@@ -17,16 +18,18 @@ function love.load()
     startMenu = require "states.startMenu"
 
     function saveGame()
-        data = {}
-        data.saveGameMoment = {
+        d = {}
+        d.savefile = {
             saveClicks = clicks,
             saveShop1Owned = shop1Owned,
             saveShop2Owned = shop2Owned,
             saveCHPS = CHPS,
-            saveClickUpgrade = clickUpgrade
+            saveClickUpgrade = clickUpgrade,
+
+            saveVer = saveVer
         }
     
-        serialized = lume.serialize(data)
+        serialized = lume.serialize(d)
         love.filesystem.write("savedata.chcsave", serialized)
     end
 
@@ -37,19 +40,28 @@ function love.load()
     shop1Price = 10
     shop2Price = 50
     if love.filesystem.getInfo("savedata.chcsave") then
-        file = love.filesystem.read("savedata.chcsave")
-        data = lume.deserialize(file)
-        clicks = data.saveGameMoment.saveClicks
-        CHPS = data.saveGameMoment.saveCHPS
-        clickUpgrade = data.saveGameMoment.saveClickUpgrade
-        shop1Owned = data.saveGameMoment.saveShop1Owned
-        shop2Owned = data.saveGameMoment.saveShop2Owned
-    else
+        savefile = love.filesystem.read("savedata.chcsave")
+        d = lume.deserialize(savefile)
+
+        clicks = d.savefile.saveClicks
+        CHPS = d.savefile.saveCHPS
+        clickUpgrade = d.savefile.saveClickUpgrade
+        shop1Owned = d.savefile.saveShop1Owned
+        shop2Owned = d.savefile.saveShop2Owned
+        saveVer = d.savefile.saveVer
+    elseif not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 1 then
+        love.window.showMessageBox(
+            "Save Error",
+            "Old/Unavailable savefile detected.\
+            Resetting save...",
+            "error"
+        )
         clicks = 0
         CHPS = 0
         clickUpgrade = 0
         shop1Owned = 0
         shop2Owned = 0
+        saveVer = 1
     end
 
     love.window.setMode(720, 620, {resizable=false, vsync=true}) -- resize set to false cuz this game depends on the window size
@@ -63,6 +75,7 @@ function love.update(dt)
     input:update()
     graphics.screenBase(lovesize.getWidth(), lovesize.getHeight())
     Gamestate.update(dt)
+    Timer.update(dt)
 
     timer = timer + dt
     if timer >= 1.4 then
@@ -107,8 +120,7 @@ function love.draw()
             "\nCHPS: " .. CHPS 
         )
     end
-    
-    love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY)
+    if not love.filesystem.isFused() then love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY) end
     
 end
 

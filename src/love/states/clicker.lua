@@ -1,6 +1,16 @@
 return {
-    load = function()
-
+    enter = function()
+        clothingHanger.x = 1000
+        clothingHanger.y = 1000
+        Timer.tween(
+            0.8,
+            clothingHanger,
+            {
+                x = 335,
+                y = 350
+            },
+            "out-elastic"
+        )
     end,
 
     update = function(dt)
@@ -20,6 +30,6 @@ return {
     end,
 
     draw = function()
-        clothingHanger:draw()
+        --clothingHanger:draw()
     end
 }

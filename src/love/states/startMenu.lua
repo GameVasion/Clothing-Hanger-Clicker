@@ -1,6 +1,14 @@
-return { -- horrible menu lol
+return { -- horrible menu lol (Ima work on it later ig)
+    enter = function()
+        textPos = {}
+        textPos[1] = love.graphics.getWidth() / 2 - 25
+        textPos[2] = 1000
+        Timer.tween(0.5, textPos, {[2] = love.graphics.getHeight() / 2 - 25}, "out-elastic")
+    end,
     load = function()
-
+        --Timer.tween(0.8, textPos, {[2] = love.graphics.getHeight() / 2 - 100}, "in-out-cubic")
+        -- change textPos[2] to 100 via tween
+        
     end,
 
     update = function(dt)
@@ -10,6 +18,7 @@ return { -- horrible menu lol
     end,
 
     draw = function()
-        love.graphics.printf("Please Press Enter", 320, 360, 200, "center", 0, 1, 1)
+        -- print "Press Enter" in the middle of the screen
+        love.graphics.print("Press Enter", textPos[1], textPos[2])
     end
 }

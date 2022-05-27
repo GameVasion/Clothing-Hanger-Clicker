@@ -1,7 +1,7 @@
 local gameClick
 return baton.new {
     controls = {
-        gameClick = {"mouse:1", "button:a"},
+        gameClick = {"mouse:1", "button:a", "key:return"},
         shopButton = {"key:s", "button:back"},
         confirm = {"key:return", "button:start"},
         gameRight = {"button:dpright"},

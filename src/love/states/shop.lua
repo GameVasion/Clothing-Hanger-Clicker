@@ -1,5 +1,9 @@
 return {
     enter = function()
+        shop = {
+            "Mini Clothing Hangers",
+            "Clicker Power"
+        }
         print("in the shop")
         buttonSelection = 1
 
@@ -75,19 +79,22 @@ return {
             end
         end
 
-        love.graphics.rectangle("fill", 100, 140, 50,50)
-        love.graphics.rectangle("fill", 200, 140, 50,50)
+        for i = 1, #shop do
+            love.graphics.rectangle("fill", 100*i, 140, 50,50)
+            moment = 100 * i
+            love.graphics.print(i, 23 + moment,195)
+        end
 
         if shop1Owned >= 1 then
-            love.graphics.print("\n\nShop1 price: " .. shop1Price * (shop1Owned * 1.1)) -- I hate math
+            love.graphics.print("\n\n"..shop[1]..": " .. shop1Price * (shop1Owned * 1.1)) -- I hate math
         else
-            love.graphics.print("\n\nShop1 price: " .. shop1Price)
+            love.graphics.print("\n\n"..shop[1]..": " .. shop1Price)
         end
         
         if shop2Owned >= 1 then
-            love.graphics.print("\n\n\nShop2 price (Clicker power): " .. shop2Price * (shop2Owned * 1.1)) 
+            love.graphics.print("\n\n\n"..shop[2]..": " .. shop2Price * (shop2Owned * 1.1)) 
         else
-            love.graphics.print("\n\n\nShop2 price (Clicker power): " .. shop2Price) 
+            love.graphics.print("\n\n\n"..shop[2]..": " .. shop2Price) 
         end
     end
 }
