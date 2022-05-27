@@ -4,37 +4,41 @@ return {
             "Mini Clothing Hangers",
             "Clicker Power"
         }
+        shopPrice = {
+            10,
+            50
+        }
         print("in the shop")
         buttonSelection = 1
 
         function shop1buy()
             if shop1Owned >= 1 then
-                if clicks >= shop1Price * (shop1Owned * 1.1) then
-                    price = shop1Price * (shop1Owned * 1.1)
+                if clicks >= shopPrice[1] * (shop1Owned * 1.1) then
+                    price = shopPrice[1] * (shop1Owned * 1.1)
                     shop1Owned = shop1Owned + 1
                     clicks = clicks - price
                     CHPS = CHPS + 1
                 end
             else
-                if clicks >= shop1Price then
+                if clicks >= shopPrice[1] then
                     shop1Owned = shop1Owned + 1
-                    clicks = clicks - shop1Price
+                    clicks = clicks - shopPrice[1]
                     CHPS = CHPS + 1
                 end
             end
         end
         function shop2buy()
             if shop2Owned >= 1 then
-                if clicks >= shop2Price * (shop2Owned * 1.1) then
-                    price = shop2Price * (shop2Owned * 1.1)
+                if clicks >= shopPrice[2] * (shop2Owned * 1.1) then
+                    price = shopPrice[2] * (shop2Owned * 1.1)
                     shop2Owned = shop2Owned + 1
                     clicks = clicks - price
                     clickUpgrade = clickUpgrade + 1
                 end
             else
-                if clicks >= shop2Price then
+                if clicks >= shopPrice[2] then
                     shop2Owned = shop2Owned + 1
-                    clicks = clicks - shop2Price
+                    clicks = clicks - shopPrice[2]
                     clickUpgrade = clickUpgrade + 1
                 end
             end
@@ -86,15 +90,15 @@ return {
         end
 
         if shop1Owned >= 1 then
-            love.graphics.print("\n\n"..shop[1]..": " .. shop1Price * (shop1Owned * 1.1)) -- I hate math
+            love.graphics.print("\n\n"..shop[1]..": " .. shopPrice[1] * (shop1Owned * 1.1)) -- I hate math
         else
-            love.graphics.print("\n\n"..shop[1]..": " .. shop1Price)
+            love.graphics.print("\n\n"..shop[1]..": " .. shopPrice[1])
         end
         
         if shop2Owned >= 1 then
-            love.graphics.print("\n\n\n"..shop[2]..": " .. shop2Price * (shop2Owned * 1.1)) 
+            love.graphics.print("\n\n\n"..shop[2]..": " .. shopPrice[2] * (shop2Owned * 1.1)) 
         else
-            love.graphics.print("\n\n\n"..shop[2]..": " .. shop2Price) 
+            love.graphics.print("\n\n\n"..shop[2]..": " .. shopPrice[2]) 
         end
     end
 }
