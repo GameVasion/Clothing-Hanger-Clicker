@@ -143,21 +143,21 @@ return { -- This file is where all the shop functions are stored.
         end
 
         if plasticHangerOwn >= 1 then
-            love.graphics.print("\n\n"..shop[2]..": " .. shopPrice[2] * (plasticHangerOwn * 1.1))
+            love.graphics.print("\n\n\n"..shop[2]..": " .. shopPrice[2] * (plasticHangerOwn * 1.1))
         else
-            love.graphics.print("\n\n"..shop[2]..": " .. shopPrice[2])
+            love.graphics.print("\n\n\n"..shop[2]..": " .. shopPrice[2])
         end
 
         if copperHangerOwn >= 1 then
-            love.graphics.print("\n\n"..shop[3]..": " .. shopPrice[3] * (copperHangerOwn * 1.1))
+            love.graphics.print("\n\n\n\n"..shop[3]..": " .. shopPrice[3] * (copperHangerOwn * 1.1))
         else
-            love.graphics.print("\n\n"..shop[3]..": " .. shopPrice[3])
+            love.graphics.print("\n\n\n\n"..shop[3]..": " .. shopPrice[3])
         end
         
         if clickerPowerOwn >= 1 then
-            love.graphics.print("\n\n\n"..shop[#shop]..": " .. shopPrice[#shop] * (clickerPowerOwn * 1.1)) 
+            love.graphics.print("\n\n\n\n\n"..shop[#shop]..": " .. shopPrice[#shop] * (clickerPowerOwn * 1.1)) 
         else
-            love.graphics.print("\n\n\n"..shop[#shop]..": " .. shopPrice[#shop]) 
+            love.graphics.print("\n\n\n\n\n"..shop[#shop]..": " .. shopPrice[#shop]) 
         end
     end
 }

@@ -68,7 +68,7 @@ function love.load()
         copperHangerOwn = d.savefile.savecopperHangerOwn
         saveVer = d.savefile.saveVer
     end -- removed elseif statement to fix saves
-    if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 3 then -- if there is no save file or the save file is outdated
+    if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 4 then -- if there is no save file or the save file is outdated
         love.window.showMessageBox(
             "Save Error",
             "Old/Unavailable savefile detected.\
@@ -81,7 +81,8 @@ function love.load()
         miniHangerOwn = 0
         clickerPowerOwn = 0
         plasticHangerOwn = 0
-        saveVer = 3
+        copperHangerOwn = 0
+        saveVer = 4
     end
 
     love.window.setIcon(love.image.newImageData("icon.png"))
