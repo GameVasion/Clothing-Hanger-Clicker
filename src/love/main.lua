@@ -57,22 +57,24 @@ function love.load()
     shop2Price = 50
     if love.filesystem.getInfo("savedata.chcsave") then
         savefile = love.filesystem.read("savedata.chcsave")
-        d = lume.deserialize(savefile)
+        f = lume.deserialize(savefile)
 
-        clicks = d.savefile.saveClicks
-        CHPS = d.savefile.saveCHPS
-        clickUpgrade = d.savefile.saveClickUpgrade
-        miniHangerOwn = d.savefile.saveminiHangerOwn
-        clickerPowerOwn = d.savefile.saveclickerPowerOwn
-        plasticHangerOwn = d.savefile.saveplasticHangerOwn
-        copperHangerOwn = d.savefile.savecopperHangerOwn
-        saveVer = d.savefile.saveVer
+        clicks = f.savefile.saveClicks
+        CHPS = f.savefile.saveCHPS
+        clickUpgrade = f.savefile.saveClickUpgrade
+        miniHangerOwn = f.savefile.saveminiHangerOwn
+        clickerPowerOwn = f.savefile.saveclickerPowerOwn
+        plasticHangerOwn = f.savefile.saveplasticHangerOwn
+        copperHangerOwn = f.savefile.savecopperHangerOwn
+        saveVer = f.savefile.saveVer
     end -- removed elseif statement to fix saves
     if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 4 then -- if there is no save file or the save file is outdated
         love.window.showMessageBox(
             "Save Error",
-            "Old/Unavailable savefile detected.\
-            Resetting save...",
+"\
+Old/Unavailable savefile detected.\
+            Resetting save...\
+",
             "error"
         )
         clicks = 0

@@ -16,6 +16,12 @@ return { -- This file is where all the shop functions are stored.
         buttonSelection = 1
     end,
     update = function(dt)
+        shopPrices = {
+            [1] = math.floor(shopPrice[1] * (miniHangerOwn * 1.1)),
+            [2] = math.floor(shopPrice[2] * (plasticHangerOwn * 1.1)),
+            [3] = math.floor(shopPrice[3] * (copperHangerOwn * 1.1)),
+            [4] = math.floor(shopPrice[4] * (clickerPowerOwn * 1.1))
+        }
         if input:pressed("gameClick") then
             if mouseX >= 100 and mouseX <= 150 and mouseY >= 140 and mouseY <= 190 then
                 shopFunc:MiniHangerBuy()
@@ -55,8 +61,8 @@ return { -- This file is where all the shop functions are stored.
     end,
     MiniHangerBuy = function()
         if miniHangerOwn >= 1 then
-            if clicks >= math.floor(shopPrice[1] * (miniHangerOwn * 1.1)) then
-                price = math.floor(shopPrice[1] * (miniHangerOwn * 1.1))
+            if clicks >= shopPrices[1] then
+                price = shopPrices[1]
                 miniHangerOwn = miniHangerOwn + 1
                 clicks = clicks - price
                 CHPS = CHPS + 1
@@ -71,8 +77,8 @@ return { -- This file is where all the shop functions are stored.
     end,
     PlasticHangerBuy = function()
         if plasticHangerOwn >= 1 then
-            if clicks >= math.floor(shopPrice[3] * (plasticHangerOwn * 1.1)) then
-                price = math.floor(shopPrice[3] * (plasticHangerOwn * 1.1)) -- eww decimals
+            if clicks >= shopPrices[2] then
+                price = shopPrices[2]
                 plasticHangerOwn = plasticHangerOwn + 1
                 clicks = clicks - price
                 CHPS = CHPS + 2
@@ -87,8 +93,8 @@ return { -- This file is where all the shop functions are stored.
     end,
     CopperHangerBuy = function()
         if copperHangerOwn >= 1 then
-            if clicks >= math.floor(shopPrice[2] * (copperHangerOwn * 1.1)) then
-                price = math.floor(shopPrice[2] * (copperHangerOwn * 1.1))
+            if clicks >= shopPrices[3] then
+                price = shopPrices[3]
                 copperHangerOwn = copperHangerOwn + 1
                 clicks = clicks - price
                 CHPS = CHPS + 5
@@ -103,8 +109,8 @@ return { -- This file is where all the shop functions are stored.
     end,
     ClickPowerBuy = function()
         if clickerPowerOwn >= 1 then
-            if clicks >= math.floor(shopPrice[2] * (clickerPowerOwn * 1.1)) then
-                price = math.floor(shopPrice[2] * (clickerPowerOwn * 1.1))
+            if clicks >= shopPrices[4] then
+                price = shopPrices[4]
                 clickerPowerOwn = clickerPowerOwn + 1
                 clicks = clicks - price
                 clickUpgrade = clickUpgrade + 1
@@ -130,28 +136,8 @@ return { -- This file is where all the shop functions are stored.
         end
 
         love.graphics.print("| Shop (In order) |", 0, 280)
-        if miniHangerOwn >= 1 then
-            love.graphics.print(shop[1]..": " .. shopPrice[1] * (miniHangerOwn * 1.1), 0, 300) -- I hate math
-        else
-            love.graphics.print(shop[1]..": " .. shopPrice[1], 0, 300)
-        end
-
-        if plasticHangerOwn >= 1 then
-            love.graphics.print("\n"..shop[2]..": " .. shopPrice[2] * (plasticHangerOwn * 1.1), 0, 300)
-        else
-            love.graphics.print("\n"..shop[2]..": " .. shopPrice[2], 0, 300)
-        end
-
-        if copperHangerOwn >= 1 then
-            love.graphics.print("\n\n"..shop[3]..": " .. shopPrice[3] * (copperHangerOwn * 1.1), 0, 300)
-        else
-            love.graphics.print("\n\n"..shop[3]..": " .. shopPrice[3], 0, 300)
-        end
-        
-        if clickerPowerOwn >= 1 then
-            love.graphics.print("\n\n\n"..shop[#shop]..": " .. shopPrice[#shop] * (clickerPowerOwn * 1.1), 0, 300) 
-        else
-            love.graphics.print("\n\n\n"..shop[#shop]..": " .. shopPrice[#shop], 0, 300) 
+        for i = 1, #shop do
+            love.graphics.print(shop[i]..": "..shopPrices[i], 0, 300+(20*i))
         end
     end
 }
