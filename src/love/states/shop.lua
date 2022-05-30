@@ -58,7 +58,6 @@ return {
             elseif buttonSelection == 3 then
                 love.graphics.rectangle("line", 295, 135, 60,60)
             end
-            end
         end
 
         for i = 1, #shop do
