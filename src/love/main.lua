@@ -17,8 +17,8 @@ function love.load()
     clickerMenu = require "states.clicker"
     startMenu = require "states.startMenu"
 
-    -- Shop data
-    shopFunc = require "data.shopFunctions"
+    shopFunc = require "data.shopFunctions"-- Shop data
+    clickerFunc = require "data.clickerFunctions"-- Clicker data
 
     function saveGame()
         d = {}
