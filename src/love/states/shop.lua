@@ -2,67 +2,42 @@ return {
     enter = function()
         shop = {
             "Mini Clothing Hangers",
+            "Plastic Clothing Hangers",
             "Clicker Power"
         }
         shopPrice = {
             10,
+            25,
             50
         }
         print("in the shop")
         buttonSelection = 1
-
-        function MiniHangerBuy()
-            if miniHangerOwn >= 1 then
-                if clicks >= shopPrice[1] * (miniHangerOwn * 1.1) then
-                    price = shopPrice[1] * (miniHangerOwn * 1.1)
-                    miniHangerOwn = miniHangerOwn + 1
-                    clicks = clicks - price
-                    CHPS = CHPS + 1
-                end
-            else
-                if clicks >= shopPrice[1] then
-                    miniHangerOwn = miniHangerOwn + 1
-                    clicks = clicks - shopPrice[1]
-                    CHPS = CHPS + 1
-                end
-            end
-        end
-        function ClickPowerBuy()
-            if clickerPowerOwn >= 1 then
-                if clicks >= shopPrice[2] * (clickerPowerOwn * 1.1) then
-                    price = shopPrice[2] * (clickerPowerOwn * 1.1)
-                    clickerPowerOwn = clickerPowerOwn + 1
-                    clicks = clicks - price
-                    clickUpgrade = clickUpgrade + 1
-                end
-            else
-                if clicks >= shopPrice[2] then
-                    clickerPowerOwn = clickerPowerOwn + 1
-                    clicks = clicks - shopPrice[2]
-                    clickUpgrade = clickUpgrade + 1
-                end
-            end
-        end
     end,
 
     update = function(dt)
         if input:pressed("gameClick") then
             if mouseX >= 100 and mouseX <= 150 and mouseY >= 140 and mouseY <= 190 then
-                MiniHangerBuy()
+                shopFunc:MiniHangerBuy()
             end
             if mouseX >= 200 and mouseX <= 250 and mouseY >= 140 and mouseY <= 190 then
-                ClickPowerBuy()
+                shopFunc:PlasticHangerBuy()
+            end
+            if mouseX >= 300 and mouseX <= 350 and mouseY >= 140 and mouseY <= 190 then
+                shopFunc:ClickPowerBuy()
             end
             if input:getActiveDevice() == "joy" then
                 if buttonSelection == 1 then
-                    MiniHangerBuy()
+                    shopFunc:MiniHangerBuy()
                 end
                 if buttonSelection == 2 then
-                    ClickPowerBuy()
+                    shopFunc:PlasticHangerBuy()
+                end
+                if buttonSelection == 3 then
+                    shopFunc:ClickPowerBuy()
                 end
             end
         elseif input:pressed("gameRight") then
-            if buttonSelection ~= 2 then
+            if buttonSelection ~= #shop then
                 buttonSelection = buttonSelection + 1
             end
         elseif input:pressed("gameLeft") then
@@ -80,6 +55,9 @@ return {
                 love.graphics.rectangle("line", 95, 135, 60,60)
             elseif buttonSelection == 2 then
                 love.graphics.rectangle("line", 195, 135, 60,60)
+            elseif buttonSelection == 3 then
+                love.graphics.rectangle("line", 295, 135, 60,60)
+            end
             end
         end
 

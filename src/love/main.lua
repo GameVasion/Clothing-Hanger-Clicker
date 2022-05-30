@@ -17,6 +17,9 @@ function love.load()
     clickerMenu = require "states.clicker"
     startMenu = require "states.startMenu"
 
+    -- Shop data
+    shopFunc = require "data.shopFunctions"
+
     function saveGame()
         d = {}
         d.savefile = {
@@ -25,6 +28,7 @@ function love.load()
             saveclickerPowerOwn = clickerPowerOwn,
             saveCHPS = CHPS,
             saveClickUpgrade = clickUpgrade,
+            saveplasticHangerOwn = plasticHangerOwn,
 
             saveVer = saveVer
         }
@@ -37,7 +41,7 @@ function love.load()
         Timer.after(
             1,
             function()
-                clicks = clicks + 1 + clickUpgrade
+                clicks = clicks + CHPS
                 autoHanger()
             end
         )
@@ -59,9 +63,10 @@ function love.load()
         clickUpgrade = d.savefile.saveClickUpgrade
         miniHangerOwn = d.savefile.saveminiHangerOwn
         clickerPowerOwn = d.savefile.saveclickerPowerOwn
+        plasticHangerOwn = d.savefile.saveplasticHangerOwn
         saveVer = d.savefile.saveVer
     end -- removed elseif statement to fix saves
-    if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 2 then -- if there is no save file or the save file is outdated
+    if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 3 then -- if there is no save file or the save file is outdated
         love.window.showMessageBox(
             "Save Error",
             "Old/Unavailable savefile detected.\
@@ -73,7 +78,8 @@ function love.load()
         clickUpgrade = 0
         miniHangerOwn = 0
         clickerPowerOwn = 0
-        saveVer = 2
+        plasticHangerOwn = 0
+        saveVer = 3
     end
 
     love.window.setIcon(love.image.newImageData("icon.png"))
