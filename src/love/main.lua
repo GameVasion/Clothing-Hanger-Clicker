@@ -29,6 +29,7 @@ function love.load()
             saveCHPS = CHPS,
             saveClickUpgrade = clickUpgrade,
             saveplasticHangerOwn = plasticHangerOwn,
+            savecopperHangerOwn = copperHangerOwn,
 
             saveVer = saveVer
         }
@@ -64,6 +65,7 @@ function love.load()
         miniHangerOwn = d.savefile.saveminiHangerOwn
         clickerPowerOwn = d.savefile.saveclickerPowerOwn
         plasticHangerOwn = d.savefile.saveplasticHangerOwn
+        copperHangerOwn = d.savefile.savecopperHangerOwn
         saveVer = d.savefile.saveVer
     end -- removed elseif statement to fix saves
     if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 3 then -- if there is no save file or the save file is outdated
