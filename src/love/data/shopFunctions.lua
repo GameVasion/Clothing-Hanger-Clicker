@@ -128,7 +128,6 @@ return { -- This file is where all the shop functions are stored.
             elseif buttonSelection == 4 then
                 love.graphics.rectangle("line", 395, 135, 60,60)
             end
-            end
         end
 
         for i = 1, #shop do
