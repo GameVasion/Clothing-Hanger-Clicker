@@ -1,71 +1,59 @@
 return { -- This file is where all the shop functions are stored.
-    enter = function()
-        shop = {
-            "Mini Clothing Hangers",
-            "Plastic Clothing Hangers",
-            "Copper Clothing Hangers",
-            "Clicker Power"
-        }
+    enter = function() -- I am so sorry modders (not like anyone is going to mod anyways lmfao)
         shopPriceOG = {
             10, -- mini hanger
             25, -- plastic hanger
             50, -- copper hanger
             50 -- clicker power
         }
+        shop = {
+            {"Mini Clothing Hangers", shopPriceOG[1]},
+            {"Plastic Clothing Hangers", shopPriceOG[2]},
+            {"Copper Clothing Hangers", shopPriceOG[3]},
+            {"Clicker Power", shopPriceOG[#shopPriceOG]} -- a table in a table!?!? wtf?!?!?!
+        }
         print("in the shop")
         buttonSelection = 1
-        shopPrices = {
-            [1] = shopPriceOG[1],
-            [2] = shopPriceOG[2],
-            [3] = shopPriceOG[3],
-            [4] = shopPriceOG[4]
-        }
     end,
     update = function(dt)
         if miniHangerOwn ~= 1 then
-            shopPrices[1] = shopPriceOG[1]
+            shop[1][2] = shopPriceOG[1]
         else
-            shopPrices[1] = math.floor(shopPriceOG[1] * (miniHangerOwn * 1.1))
+            shop[1][2] = math.floor(shopPriceOG[1] * (miniHangerOwn * 1.1))
         end
         if plasticHangerOwn ~= 1 then
-            shopPrices[2] = shopPriceOG[2]
+            shop[2][2] = shopPriceOG[2]
         else
-            shopPrices[2] = math.floor(shopPriceOG[2] * (plasticHangerOwn * 1.1))
+            shop[2][2] = math.floor(shopPriceOG[2] * (plasticHangerOwn * 1.1))
         end
         if copperHangerOwn ~= 1 then
-            shopPrices[3] = shopPriceOG[3]
+            shop[3][2] = shopPriceOG[3]
         else
-            shopPrices[3] = math.floor(shopPriceOG[3] * (copperHangerOwn * 1.1))
+            shop[3][2] = math.floor(shopPriceOG[3] * (copperHangerOwn * 1.1))
         end
         if clickerPowerOwn ~= 1 then
-            shopPrices[4] = shopPriceOG[4]
+            shop[4][2] = shopPriceOG[4]
         else
-            shopPrices[4] = math.floor(shopPriceOG[4] * (clickerPowerOwn * 1.1))
+            shop[4][2] = math.floor(shopPriceOG[4] * (clickerPowerOwn * 1.1))
         end
         if input:pressed("gameClick") then
             if mouseX >= 100 and mouseX <= 150 and mouseY >= 140 and mouseY <= 190 then
                 shopFunc:MiniHangerBuy()
-            end
-            if mouseX >= 200 and mouseX <= 250 and mouseY >= 140 and mouseY <= 190 then
+            elseif mouseX >= 200 and mouseX <= 250 and mouseY >= 140 and mouseY <= 190 then
                 shopFunc:PlasticHangerBuy()
-            end
-            if mouseX >= 300 and mouseX <= 350 and mouseY >= 140 and mouseY <= 190 then
+            elseif mouseX >= 300 and mouseX <= 350 and mouseY >= 140 and mouseY <= 190 then
                 shopFunc:CopperHangerBuy()
-            end
-            if mouseX >= 400 and mouseX <= 450 and mouseY >= 140 and mouseY <= 190 then
+            elseif mouseX >= 400 and mouseX <= 450 and mouseY >= 140 and mouseY <= 190 then
                 shopFunc:ClickPowerBuy()
             end
             if input:getActiveDevice() == "joy" then
                 if buttonSelection == 1 then
                     shopFunc:MiniHangerBuy()
-                end
-                if buttonSelection == 2 then
+                elseif buttonSelection == 2 then
                     shopFunc:PlasticHangerBuy()
-                end
-                if buttonSelection == 3 then
+                elseif buttonSelection == 3 then
                     shopFunc:CopperHangerBuy()
-                end
-                if buttonSelection == 4 then
+                elseif buttonSelection == 4 then
                     shopFunc:ClickPowerBuy()
                 end
             end
@@ -81,8 +69,8 @@ return { -- This file is where all the shop functions are stored.
     end,
     MiniHangerBuy = function()
         if miniHangerOwn >= 1 then
-            if clicks >= shopPrices[1] then
-                price = shopPrices[1]
+            if clicks >= shop[1][2] then
+                price = shop[1][2]
                 miniHangerOwn = miniHangerOwn + 1
                 clicks = clicks - price
                 CHPS = CHPS + 1
@@ -97,8 +85,8 @@ return { -- This file is where all the shop functions are stored.
     end,
     PlasticHangerBuy = function()
         if plasticHangerOwn >= 1 then
-            if clicks >= shopPrices[2] then
-                price = shopPrices[2]
+            if clicks >= shop[2][2] then
+                price = shop[2][2]
                 plasticHangerOwn = plasticHangerOwn + 1
                 clicks = clicks - price
                 CHPS = CHPS + 2
@@ -113,14 +101,14 @@ return { -- This file is where all the shop functions are stored.
     end,
     CopperHangerBuy = function()
         if copperHangerOwn >= 1 then
-            if clicks >= shopPrices[3] then
-                price = shopPrices[3]
+            if clicks >= shop[3][2] then
+                price = shop[3][2]
                 copperHangerOwn = copperHangerOwn + 1
                 clicks = clicks - price
                 CHPS = CHPS + 5
             end
         else
-            if clicks >= shopPriceOG[3] then
+            if clicks >= shopPriceOG[3][2] then
                 copperHangerOwn = copperHangerOwn + 1
                 clicks = clicks - shopPriceOG[3]
                 CHPS = CHPS + 5
@@ -129,8 +117,8 @@ return { -- This file is where all the shop functions are stored.
     end,
     ClickPowerBuy = function()
         if clickerPowerOwn >= 1 then
-            if clicks >= shopPrices[4] then
-                price = shopPrices[4]
+            if clicks >= shop[4][2] then
+                price = shop[4][2]
                 clickerPowerOwn = clickerPowerOwn + 1
                 clicks = clicks - price
                 clickUpgrade = clickUpgrade + 1
@@ -157,7 +145,7 @@ return { -- This file is where all the shop functions are stored.
 
         love.graphics.print("| Shop (In order) |", 0, 280)
         for i = 1, #shop do
-            love.graphics.print(shop[i]..": "..shopPrices[i], 0, 300+(20*i))
+            love.graphics.print(shop[i][1]..": "..shop[i][2], 0, 300+(20*i))
         end
     end
 }
