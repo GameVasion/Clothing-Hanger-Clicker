@@ -14,14 +14,34 @@ return { -- This file is where all the shop functions are stored.
         }
         print("in the shop")
         buttonSelection = 1
+        shopPrices = {
+            [1] = shopPriceOG[1],
+            [2] = shopPriceOG[2],
+            [3] = shopPriceOG[3],
+            [4] = shopPriceOG[4]
+        }
     end,
     update = function(dt)
-        shopPrices = {
-            [1] = math.floor(shopPriceOG[1] * (miniHangerOwn * 1.1)),
-            [2] = math.floor(shopPriceOG[2] * (plasticHangerOwn * 1.1)),
-            [3] = math.floor(shopPriceOG[3] * (copperHangerOwn * 1.1)),
-            [4] = math.floor(shopPriceOG[4] * (clickerPowerOwn * 1.1))
-        }
+        if miniHangerOwn ~= 1 then
+            shopPrices[1] = shopPriceOG[1]
+        else
+            shopPrices[1] = math.floor(shopPriceOG[1] * (miniHangerOwn * 1.1))
+        end
+        if plasticHangerOwn ~= 1 then
+            shopPrices[2] = shopPriceOG[2]
+        else
+            shopPrices[2] = math.floor(shopPriceOG[2] * (plasticHangerOwn * 1.1))
+        end
+        if copperHangerOwn ~= 1 then
+            shopPrices[3] = shopPriceOG[3]
+        else
+            shopPrices[3] = math.floor(shopPriceOG[3] * (copperHangerOwn * 1.1))
+        end
+        if clickerPowerOwn ~= 1 then
+            shopPrices[4] = shopPriceOG[4]
+        else
+            shopPrices[4] = math.floor(shopPriceOG[4] * (clickerPowerOwn * 1.1))
+        end
         if input:pressed("gameClick") then
             if mouseX >= 100 and mouseX <= 150 and mouseY >= 140 and mouseY <= 190 then
                 shopFunc:MiniHangerBuy()
