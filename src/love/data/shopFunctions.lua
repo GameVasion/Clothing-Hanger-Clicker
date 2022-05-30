@@ -33,7 +33,7 @@ return {
     end,
     PlasticHangerBuy = function()
         if plasticHangerOwn >= 1 then
-            if clicks >= shopPrice[3] * (plasticHangerOwn * 1.1) then
+            if clicks >= math.floor(shopPrice[3] * (plasticHangerOwn * 1.1)) then
                 price = math.floor(shopPrice[3] * (plasticHangerOwn * 1.1)) -- eww decimals
                 plasticHangerOwn = plasticHangerOwn + 1
                 clicks = clicks - price
