@@ -55,8 +55,8 @@ return { -- This file is where all the shop functions are stored.
     end,
     MiniHangerBuy = function()
         if miniHangerOwn >= 1 then
-            if clicks >= shopPrice[1] * (miniHangerOwn * 1.1) then
-                price = shopPrice[1] * (miniHangerOwn * 1.1)
+            if clicks >= math.floor(shopPrice[1] * (miniHangerOwn * 1.1)) then
+                price = math.floor(shopPrice[1] * (miniHangerOwn * 1.1))
                 miniHangerOwn = miniHangerOwn + 1
                 clicks = clicks - price
                 CHPS = CHPS + 1
@@ -87,8 +87,8 @@ return { -- This file is where all the shop functions are stored.
     end,
     CopperHangerBuy = function()
         if copperHangerOwn >= 1 then
-            if clicks >= shopPrice[2] * (copperHangerOwn * 1.1) then
-                price = shopPrice[2] * (copperHangerOwn * 1.1)
+            if clicks >= math.floor(shopPrice[2] * (copperHangerOwn * 1.1)) then
+                price = math.floor(shopPrice[2] * (copperHangerOwn * 1.1))
                 copperHangerOwn = copperHangerOwn + 1
                 clicks = clicks - price
                 CHPS = CHPS + 5
@@ -103,8 +103,8 @@ return { -- This file is where all the shop functions are stored.
     end,
     ClickPowerBuy = function()
         if clickerPowerOwn >= 1 then
-            if clicks >= shopPrice[2] * (clickerPowerOwn * 1.1) then
-                price = shopPrice[2] * (clickerPowerOwn * 1.1)
+            if clicks >= math.floor(shopPrice[2] * (clickerPowerOwn * 1.1)) then
+                price = math.floor(shopPrice[2] * (clickerPowerOwn * 1.1))
                 clickerPowerOwn = clickerPowerOwn + 1
                 clicks = clicks - price
                 clickUpgrade = clickUpgrade + 1
@@ -119,45 +119,39 @@ return { -- This file is where all the shop functions are stored.
     end,
     drawUI = function()
         if input:getActiveDevice() == "joy" then
-            if buttonSelection == 1 then 
-                love.graphics.rectangle("line", 95, 135, 60,60)
-            elseif buttonSelection == 2 then
-                love.graphics.rectangle("line", 195, 135, 60,60)
-            elseif buttonSelection == 3 then
-                love.graphics.rectangle("line", 295, 135, 60,60)
-            elseif buttonSelection == 4 then
-                love.graphics.rectangle("line", 395, 135, 60,60)
+            for i = 0, #shop-1 do -- will need to test this
+                love.graphics.rectangle("line", 95, 35 + (100 * i), 60,60)
             end
         end
 
         for i = 1, #shop do
             love.graphics.rectangle("fill", 100*i, 140, 50,50)
-            moment = 100 * i
-            love.graphics.print(i, 23 + moment,195)
+            love.graphics.print(i, 23 + 100*i,195)
         end
 
+        love.graphics.print("| Shop (In order) |", 0, 280)
         if miniHangerOwn >= 1 then
-            love.graphics.print("\n\n"..shop[1]..": " .. shopPrice[1] * (miniHangerOwn * 1.1)) -- I hate math
+            love.graphics.print(shop[1]..": " .. shopPrice[1] * (miniHangerOwn * 1.1), 0, 300) -- I hate math
         else
-            love.graphics.print("\n\n"..shop[1]..": " .. shopPrice[1])
+            love.graphics.print(shop[1]..": " .. shopPrice[1], 0, 300)
         end
 
         if plasticHangerOwn >= 1 then
-            love.graphics.print("\n\n\n"..shop[2]..": " .. shopPrice[2] * (plasticHangerOwn * 1.1))
+            love.graphics.print("\n"..shop[2]..": " .. shopPrice[2] * (plasticHangerOwn * 1.1), 0, 300)
         else
-            love.graphics.print("\n\n\n"..shop[2]..": " .. shopPrice[2])
+            love.graphics.print("\n"..shop[2]..": " .. shopPrice[2], 0, 300)
         end
 
         if copperHangerOwn >= 1 then
-            love.graphics.print("\n\n\n\n"..shop[3]..": " .. shopPrice[3] * (copperHangerOwn * 1.1))
+            love.graphics.print("\n\n"..shop[3]..": " .. shopPrice[3] * (copperHangerOwn * 1.1), 0, 300)
         else
-            love.graphics.print("\n\n\n\n"..shop[3]..": " .. shopPrice[3])
+            love.graphics.print("\n\n"..shop[3]..": " .. shopPrice[3], 0, 300)
         end
         
         if clickerPowerOwn >= 1 then
-            love.graphics.print("\n\n\n\n\n"..shop[#shop]..": " .. shopPrice[#shop] * (clickerPowerOwn * 1.1)) 
+            love.graphics.print("\n\n\n"..shop[#shop]..": " .. shopPrice[#shop] * (clickerPowerOwn * 1.1), 0, 300) 
         else
-            love.graphics.print("\n\n\n\n\n"..shop[#shop]..": " .. shopPrice[#shop]) 
+            love.graphics.print("\n\n\n"..shop[#shop]..": " .. shopPrice[#shop], 0, 300) 
         end
     end
 }
