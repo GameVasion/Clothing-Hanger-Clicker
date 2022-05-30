@@ -26,6 +26,9 @@ return { -- This file is where all the shop functions are stored.
             if mouseX >= 300 and mouseX <= 350 and mouseY >= 140 and mouseY <= 190 then
                 shopFunc:ClickPowerBuy()
             end
+            if mouseX >= 400 and mouseX <= 450 and mouseY >= 140 and mouseY <= 190 then
+                shopFunc:CopperHangerBuy()
+            end
             if input:getActiveDevice() == "joy" then
                 if buttonSelection == 1 then
                     shopFunc:MiniHangerBuy()
@@ -35,6 +38,9 @@ return { -- This file is where all the shop functions are stored.
                 end
                 if buttonSelection == 3 then
                     shopFunc:ClickPowerBuy()
+                end
+                if buttonSelection == 4 then
+                    shopFunc:CopperHangerBuy()
                 end
             end
         elseif input:pressed("gameRight") then
@@ -119,6 +125,9 @@ return { -- This file is where all the shop functions are stored.
                 love.graphics.rectangle("line", 195, 135, 60,60)
             elseif buttonSelection == 3 then
                 love.graphics.rectangle("line", 295, 135, 60,60)
+            elseif buttonSelection == 4 then
+                love.graphics.rectangle("line", 395, 135, 60,60)
+            end
             end
         end
 
@@ -139,11 +148,17 @@ return { -- This file is where all the shop functions are stored.
         else
             love.graphics.print("\n\n"..shop[2]..": " .. shopPrice[2])
         end
+
+        if copperHangerOwn >= 1 then
+            love.graphics.print("\n\n"..shop[3]..": " .. shopPrice[3] * (copperHangerOwn * 1.1))
+        else
+            love.graphics.print("\n\n"..shop[3]..": " .. shopPrice[3])
+        end
         
         if clickerPowerOwn >= 1 then
-            love.graphics.print("\n\n\n"..shop[3]..": " .. shopPrice[3] * (clickerPowerOwn * 1.1)) 
+            love.graphics.print("\n\n\n"..shop[#shop]..": " .. shopPrice[#shop] * (clickerPowerOwn * 1.1)) 
         else
-            love.graphics.print("\n\n\n"..shop[3]..": " .. shopPrice[3]) 
+            love.graphics.print("\n\n\n"..shop[#shop]..": " .. shopPrice[#shop]) 
         end
     end
 }
