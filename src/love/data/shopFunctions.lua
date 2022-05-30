@@ -24,10 +24,10 @@ return { -- This file is where all the shop functions are stored.
                 shopFunc:PlasticHangerBuy()
             end
             if mouseX >= 300 and mouseX <= 350 and mouseY >= 140 and mouseY <= 190 then
-                shopFunc:ClickPowerBuy()
+                shopFunc:CopperHangerBuy()
             end
             if mouseX >= 400 and mouseX <= 450 and mouseY >= 140 and mouseY <= 190 then
-                shopFunc:CopperHangerBuy()
+                shopFunc:ClickPowerBuy()
             end
             if input:getActiveDevice() == "joy" then
                 if buttonSelection == 1 then
@@ -37,10 +37,10 @@ return { -- This file is where all the shop functions are stored.
                     shopFunc:PlasticHangerBuy()
                 end
                 if buttonSelection == 3 then
-                    shopFunc:ClickPowerBuy()
+                    shopFunc:CopperHangerBuy()
                 end
                 if buttonSelection == 4 then
-                    shopFunc:CopperHangerBuy()
+                    shopFunc:ClickPowerBuy()
                 end
             end
         elseif input:pressed("gameRight") then
