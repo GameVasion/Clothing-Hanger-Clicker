@@ -11,33 +11,33 @@ return {
         print("in the shop")
         buttonSelection = 1
 
-        function shop1buy()
-            if shop1Owned >= 1 then
-                if clicks >= shopPrice[1] * (shop1Owned * 1.1) then
-                    price = shopPrice[1] * (shop1Owned * 1.1)
-                    shop1Owned = shop1Owned + 1
+        function MiniHangerBuy()
+            if miniHangerOwn >= 1 then
+                if clicks >= shopPrice[1] * (miniHangerOwn * 1.1) then
+                    price = shopPrice[1] * (miniHangerOwn * 1.1)
+                    miniHangerOwn = miniHangerOwn + 1
                     clicks = clicks - price
                     CHPS = CHPS + 1
                 end
             else
                 if clicks >= shopPrice[1] then
-                    shop1Owned = shop1Owned + 1
+                    miniHangerOwn = miniHangerOwn + 1
                     clicks = clicks - shopPrice[1]
                     CHPS = CHPS + 1
                 end
             end
         end
-        function shop2buy()
-            if shop2Owned >= 1 then
-                if clicks >= shopPrice[2] * (shop2Owned * 1.1) then
-                    price = shopPrice[2] * (shop2Owned * 1.1)
-                    shop2Owned = shop2Owned + 1
+        function ClickPowerBuy()
+            if clickerPowerOwn >= 1 then
+                if clicks >= shopPrice[2] * (clickerPowerOwn * 1.1) then
+                    price = shopPrice[2] * (clickerPowerOwn * 1.1)
+                    clickerPowerOwn = clickerPowerOwn + 1
                     clicks = clicks - price
                     clickUpgrade = clickUpgrade + 1
                 end
             else
                 if clicks >= shopPrice[2] then
-                    shop2Owned = shop2Owned + 1
+                    clickerPowerOwn = clickerPowerOwn + 1
                     clicks = clicks - shopPrice[2]
                     clickUpgrade = clickUpgrade + 1
                 end
@@ -48,17 +48,17 @@ return {
     update = function(dt)
         if input:pressed("gameClick") then
             if mouseX >= 100 and mouseX <= 150 and mouseY >= 140 and mouseY <= 190 then
-                shop1buy()
+                MiniHangerBuy()
             end
             if mouseX >= 200 and mouseX <= 250 and mouseY >= 140 and mouseY <= 190 then
-                shop2buy()
+                ClickPowerBuy()
             end
             if input:getActiveDevice() == "joy" then
                 if buttonSelection == 1 then
-                    shop1buy()
+                    MiniHangerBuy()
                 end
                 if buttonSelection == 2 then
-                    shop2buy()
+                    ClickPowerBuy()
                 end
             end
         elseif input:pressed("gameRight") then
@@ -89,14 +89,14 @@ return {
             love.graphics.print(i, 23 + moment,195)
         end
 
-        if shop1Owned >= 1 then
-            love.graphics.print("\n\n"..shop[1]..": " .. shopPrice[1] * (shop1Owned * 1.1)) -- I hate math
+        if miniHangerOwn >= 1 then
+            love.graphics.print("\n\n"..shop[1]..": " .. shopPrice[1] * (miniHangerOwn * 1.1)) -- I hate math
         else
             love.graphics.print("\n\n"..shop[1]..": " .. shopPrice[1])
         end
         
-        if shop2Owned >= 1 then
-            love.graphics.print("\n\n\n"..shop[2]..": " .. shopPrice[2] * (shop2Owned * 1.1)) 
+        if clickerPowerOwn >= 1 then
+            love.graphics.print("\n\n\n"..shop[2]..": " .. shopPrice[2] * (clickerPowerOwn * 1.1)) 
         else
             love.graphics.print("\n\n\n"..shop[2]..": " .. shopPrice[2]) 
         end
