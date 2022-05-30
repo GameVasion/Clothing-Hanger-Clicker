@@ -33,6 +33,17 @@ function love.load()
         love.filesystem.write("savedata.chcsave", serialized)
     end
 
+    function autoHanger()
+        Timer.after(
+            1,
+            function()
+                clicks = clicks + 1 + clickUpgrade
+                autoHanger()
+            end
+        )
+    end
+    autoHanger()
+
     clothingHanger = graphics.newImage(love.graphics.newImage(graphics.imagePath("clothing_hanger")))
     clothingHanger.x, clothingHanger.y = 335, 350
 
@@ -80,11 +91,13 @@ function love.update(dt)
     Gamestate.update(dt)
     Timer.update(dt)
 
+    --[[
     timer = timer + dt
     if timer >= 1.4 then
         clicks = clicks + CHPS
         timer = 0  
     end
+    --]]
     
     mouseX = love.mouse.getX()
     mouseY = love.mouse.getY()
