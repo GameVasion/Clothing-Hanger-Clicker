@@ -21,8 +21,8 @@ function love.load()
         d = {}
         d.savefile = {
             saveClicks = clicks,
-            saveShop1Owned = shop1Owned,
-            saveShop2Owned = shop2Owned,
+            saveminiHangerOwn = miniHangerOwn,
+            saveclickerPowerOwn = clickerPowerOwn,
             saveCHPS = CHPS,
             saveClickUpgrade = clickUpgrade,
 
@@ -57,11 +57,11 @@ function love.load()
         clicks = d.savefile.saveClicks
         CHPS = d.savefile.saveCHPS
         clickUpgrade = d.savefile.saveClickUpgrade
-        shop1Owned = d.savefile.saveShop1Owned
-        shop2Owned = d.savefile.saveShop2Owned
+        miniHangerOwn = d.savefile.saveminiHangerOwn
+        clickerPowerOwn = d.savefile.saveclickerPowerOwn
         saveVer = d.savefile.saveVer
     end -- removed elseif statement to fix saves
-    if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 1 then -- if there is no save file or the save file is outdated
+    if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 2 then -- if there is no save file or the save file is outdated
         love.window.showMessageBox(
             "Save Error",
             "Old/Unavailable savefile detected.\
@@ -71,9 +71,9 @@ function love.load()
         clicks = 0
         CHPS = 0
         clickUpgrade = 0
-        shop1Owned = 0
-        shop2Owned = 0
-        saveVer = 1
+        miniHangerOwn = 0
+        clickerPowerOwn = 0
+        saveVer = 2
     end
 
     love.window.setIcon(love.image.newImageData("icon.png"))
