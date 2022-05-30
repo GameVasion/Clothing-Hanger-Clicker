@@ -2,7 +2,6 @@ return {
     enter = function()
         clothingHanger.x = 1000
         clothingHanger.y = 1000
-        timesPressed = 0
         thingy = 0
         Timer.tween(
             0.8,

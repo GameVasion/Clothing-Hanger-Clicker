@@ -80,10 +80,10 @@ Old/Unavailable savefile detected.\
         clicks = 0
         CHPS = 0
         clickUpgrade = 0
-        miniHangerOwn = 0
-        clickerPowerOwn = 0
-        plasticHangerOwn = 0
-        copperHangerOwn = 0
+        miniHangerOwn = 1
+        clickerPowerOwn = 1
+        plasticHangerOwn = 1
+        copperHangerOwn = 1
         saveVer = 4
     end
 
@@ -147,7 +147,7 @@ function love.draw()
             "\nCHPS: " .. CHPS 
         )
     end
-    if not love.filesystem.isFused() then love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY) end
+    if not love.filesystem.isFused() then love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY,620) end
     
 end
 

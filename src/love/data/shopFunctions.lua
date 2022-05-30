@@ -6,7 +6,7 @@ return { -- This file is where all the shop functions are stored.
             "Copper Clothing Hangers",
             "Clicker Power"
         }
-        shopPrice = {
+        shopPriceOG = {
             10, -- mini hanger
             25, -- plastic hanger
             50, -- copper hanger
@@ -17,10 +17,10 @@ return { -- This file is where all the shop functions are stored.
     end,
     update = function(dt)
         shopPrices = {
-            [1] = math.floor(shopPrice[1] * (miniHangerOwn * 1.1)),
-            [2] = math.floor(shopPrice[2] * (plasticHangerOwn * 1.1)),
-            [3] = math.floor(shopPrice[3] * (copperHangerOwn * 1.1)),
-            [4] = math.floor(shopPrice[4] * (clickerPowerOwn * 1.1))
+            [1] = math.floor(shopPriceOG[1] * (miniHangerOwn * 1.1)),
+            [2] = math.floor(shopPriceOG[2] * (plasticHangerOwn * 1.1)),
+            [3] = math.floor(shopPriceOG[3] * (copperHangerOwn * 1.1)),
+            [4] = math.floor(shopPriceOG[4] * (clickerPowerOwn * 1.1))
         }
         if input:pressed("gameClick") then
             if mouseX >= 100 and mouseX <= 150 and mouseY >= 140 and mouseY <= 190 then
@@ -68,9 +68,9 @@ return { -- This file is where all the shop functions are stored.
                 CHPS = CHPS + 1
             end
         else
-            if clicks >= shopPrice[1] then
+            if clicks >= shopPriceOG[1] then
                 miniHangerOwn = miniHangerOwn + 1
-                clicks = clicks - shopPrice[1]
+                clicks = clicks - shopPriceOG[1]
                 CHPS = CHPS + 1
             end
         end
@@ -84,9 +84,9 @@ return { -- This file is where all the shop functions are stored.
                 CHPS = CHPS + 2
             end
         else
-            if clicks >= shopPrice[3] then
+            if clicks >= shopPriceOG[2] then
                 plasticHangerOwn = plasticHangerOwn + 1
-                clicks = clicks - shopPrice[3]
+                clicks = clicks - shopPriceOG[2]
                 CHPS = CHPS + 2
             end
         end
@@ -100,9 +100,9 @@ return { -- This file is where all the shop functions are stored.
                 CHPS = CHPS + 5
             end
         else
-            if clicks >= shopPrice[2] then
+            if clicks >= shopPriceOG[3] then
                 copperHangerOwn = copperHangerOwn + 1
-                clicks = clicks - shopPrice[2]
+                clicks = clicks - shopPriceOG[3]
                 CHPS = CHPS + 5
             end
         end
@@ -116,9 +116,9 @@ return { -- This file is where all the shop functions are stored.
                 clickUpgrade = clickUpgrade + 1
             end
         else
-            if clicks >= shopPrice[2] then
+            if clicks >= shopPriceOG[2] then
                 clickerPowerOwn = clickerPowerOwn + 1
-                clicks = clicks - shopPrice[2]
+                clicks = clicks - shopPriceOG[2]
                 clickUpgrade = clickUpgrade + 1
             end
         end

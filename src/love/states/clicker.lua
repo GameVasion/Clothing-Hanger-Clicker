@@ -10,14 +10,16 @@ return {
             Gamestate.switch(shopMenu)
         end
         if input:pressed("speen") then
-            timesPressed = timesPressed + 1
             Timer.tween(
                 3,
                 clothingHanger,
                 {
-                    orientation = 6.27 * timesPressed
+                    orientation = 6.27
                 },
-                "out-elastic"
+                "out-elastic",
+                function()
+                    clothingHanger.orientation = 0
+                end
             )
         end
     end,
