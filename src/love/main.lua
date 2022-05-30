@@ -49,7 +49,8 @@ function love.load()
         shop1Owned = d.savefile.saveShop1Owned
         shop2Owned = d.savefile.saveShop2Owned
         saveVer = d.savefile.saveVer
-    elseif not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 1 then
+    end -- removed elseif statement to fix saves
+    if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 1 then -- if there is no save file or the save file is outdated
         love.window.showMessageBox(
             "Save Error",
             "Old/Unavailable savefile detected.\
@@ -66,7 +67,7 @@ function love.load()
 
     love.window.setIcon(love.image.newImageData("icon.png"))
 
-    love.window.setMode(720, 620, {resizable=false, vsync=true}) -- resize set to false cuz this game depends on the window size
+    love.window.setMode(720, 620, {resizable=true, vsync=true}) 
     lovesize.set(720, 620)
 
     Gamestate.switch(startMenu)
