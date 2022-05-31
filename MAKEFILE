@@ -1,3 +1,6 @@
+all: win64 win32 macos switch
+desktop: win64 win32 macos
+console: switch
 lovefile:
 	@rm -rf build/lovefile
 	@mkdir -p build/lovefile
