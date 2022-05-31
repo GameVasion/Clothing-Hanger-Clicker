@@ -17,12 +17,13 @@ function love.load()
     clickerMenu = require "states.clicker"
     startMenu = require "states.startMenu"
 
+    -- Data/Function files
     shopFunc = require "data.shopFunctions"-- Shop data
     clickerFunc = require "data.clickerFunctions"-- Clicker data
 
     function saveGame()
-        d = {}
-        d.savefile = {
+        f = {}
+        f.savefile = {
             saveClicks = clicks,
             saveminiHangerOwn = miniHangerOwn,
             saveclickerPowerOwn = clickerPowerOwn,
@@ -35,7 +36,7 @@ function love.load()
             saveVer = saveVer
         }
     
-        serialized = lume.serialize(d)
+        serialized = lume.serialize(f)
         love.filesystem.write("savedata.chcsave", serialized)
     end
 
