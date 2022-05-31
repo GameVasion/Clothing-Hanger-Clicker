@@ -3,7 +3,7 @@ return { -- horrible menu lol (Ima work on it later ig)
         textPos = {}
         textPos[1] = love.graphics.getWidth() / 2 - 25
         textPos[2] = 1000
-        Timer.tween(0.5, textPos, {[2] = love.graphics.getHeight() / 2 - 25}, "out-elastic")
+        Timer.tween(0.8, textPos, {[2] = love.graphics.getHeight() / 2 - 25}, "out-elastic")
     end,
 
     update = function(dt)
