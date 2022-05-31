@@ -46,9 +46,9 @@ return { -- This file is where all the shop functions are stored.
             shop[5][2] = math.floor(shopPriceOG[5] * (ironHangerOwn * 1.1))
         end
         if clickerPowerOwn ~= 1 then
-            shop[#shop][2] = shopPriceOG[#shop]
+            shop[6][2] = shopPriceOG[6]
         else
-            shop[#shop][2] = math.floor(shopPriceOG[#shop] * (clickerPowerOwn * 1.1))
+            shop[6][2] = math.floor(shopPriceOG[6] * (clickerPowerOwn * 1.1))
         end
         if input:pressed("gameClick") then
             if mouseX >= 100 and mouseX <= 150 and mouseY >= 140 and mouseY <= 190 then
@@ -65,10 +65,10 @@ return { -- This file is where all the shop functions are stored.
                 hoverOrUnhover = 4
             elseif mouseX >= 500 and mouseX <= 550 and mouseY >= 140 and mouseY <= 190 then
                 shopFunc:IronHangerBuy()
-                hoverOrUnhover = 6
-            elseif mouseX >= 100 and mouseX <= 150 and mouseY >= 220 and mouseY <= 270 then -- Clicker Power will ALWAYS be last. 
-                shopFunc:ClickPowerBuy()
                 hoverOrUnhover = 5
+            elseif mouseX >= 600 and mouseX <= 650 and mouseY >= 140 and mouseY <= 190 then -- Clicker Power will ALWAYS be last. 
+                shopFunc:ClickPowerBuy()
+                hoverOrUnhover = 6
             end
             if input:getActiveDevice() == "joy" then
                 if buttonSelection == 1 then
@@ -201,10 +201,6 @@ return { -- This file is where all the shop functions are stored.
         for i = 1, #shop do
             love.graphics.rectangle("fill", 100*i, 140, 50,50)
             love.graphics.print(i, 23 + 100*i,195)
-            for k = 1, 1 do -- row 2 
-                love.graphics.rectangle("fill", 100*k, 230, 50,50)
-                love.graphics.print(i, 23 + 100*k,285)
-            end
         end
         
 
