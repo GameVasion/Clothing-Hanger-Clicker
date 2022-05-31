@@ -50,8 +50,11 @@ function love.load()
     end
     autoHanger()
 
-    clothingHanger = graphics.newImage(love.graphics.newImage(graphics.imagePath("clothing_hanger")))
-    clothingHanger.x, clothingHanger.y = 335, 350
+    love.graphics.setDefaultFilter("nearest")
+    clothingHanger = graphics.newImage(love.graphics.newImage(graphics.imagePath("clothingHanger")))
+    love.graphics.setDefaultFilter("linear")
+    clothingHanger.sizeX, clothingHanger.sizeY = 2.2
+    clothingHanger.x, clothingHanger.y = 340, 350
 
     timer = 0
     shop1Price = 10
