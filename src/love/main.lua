@@ -30,6 +30,7 @@ function love.load()
             saveClickUpgrade = clickUpgrade,
             saveplasticHangerOwn = plasticHangerOwn,
             savecopperHangerOwn = copperHangerOwn,
+            savesteelHangerOwn = steelHangerOwn,
 
             saveVer = saveVer
         }
@@ -66,24 +67,24 @@ function love.load()
         clickerPowerOwn = f.savefile.saveclickerPowerOwn
         plasticHangerOwn = f.savefile.saveplasticHangerOwn
         copperHangerOwn = f.savefile.savecopperHangerOwn
+        steelHangerOwn = f.savefile.savesteelHangerOwn
         saveVer = f.savefile.saveVer
     end -- removed elseif statement to fix saves
     if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 4 then -- if there is no save file or the save file is outdated
         love.window.showMessageBox(
             "Save Error",
-"\
-Old/Unavailable savefile detected.\
-            Resetting save...\
-",
+            "Old/Unavailable savefile detected.\
+            Resetting save...",
             "error"
         )
         clicks = 0
         CHPS = 0
         clickUpgrade = 0
-        miniHangerOwn = 1
-        clickerPowerOwn = 1
-        plasticHangerOwn = 1
-        copperHangerOwn = 1
+        miniHangerOwn = 0
+        clickerPowerOwn = 0
+        plasticHangerOwn = 0
+        copperHangerOwn = 0
+        steelHangerOwn = 0
         saveVer = 4
     end
 

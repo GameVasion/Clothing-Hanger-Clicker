@@ -4,12 +4,16 @@ return { -- This file is where all the shop functions are stored.
             10, -- mini hanger
             25, -- plastic hanger
             50, -- copper hanger
+            100, -- steel hanger
+            250, -- iron hanger
             50 -- clicker power
         }
         shop = {
             {"Mini Clothing Hangers", shopPriceOG[1]},
             {"Plastic Clothing Hangers", shopPriceOG[2]},
             {"Copper Clothing Hangers", shopPriceOG[3]},
+            {"Steel Clothing Hangers", shopPriceOG[4]},
+            {"Iron Clothing Hangers", shopPriceOG[5]},
             {"Clicker Power", shopPriceOG[#shopPriceOG]} -- a table in a table!?!? wtf?!?!?!
         }
         print("in the shop")
@@ -31,20 +35,40 @@ return { -- This file is where all the shop functions are stored.
         else
             shop[3][2] = math.floor(shopPriceOG[3] * (copperHangerOwn * 1.1))
         end
-        if clickerPowerOwn ~= 1 then
+        if steelHangerOwn ~= 1 then
             shop[4][2] = shopPriceOG[4]
         else
-            shop[4][2] = math.floor(shopPriceOG[4] * (clickerPowerOwn * 1.1))
+            shop[4][2] = math.floor(shopPriceOG[4] * (steelHangerOwn * 1.1))
+        end
+        if ironHangerOwn ~= 1 then
+            shop[5][2] = shopPriceOG[5]
+        else
+            shop[5][2] = math.floor(shopPriceOG[5] * (ironHangerOwn * 1.1))
+        end
+        if clickerPowerOwn ~= 1 then
+            shop[#shop][2] = shopPriceOG[#shop]
+        else
+            shop[#shop][2] = math.floor(shopPriceOG[#shop] * (clickerPowerOwn * 1.1))
         end
         if input:pressed("gameClick") then
             if mouseX >= 100 and mouseX <= 150 and mouseY >= 140 and mouseY <= 190 then
                 shopFunc:MiniHangerBuy()
+                hoverOrUnhover = 1
             elseif mouseX >= 200 and mouseX <= 250 and mouseY >= 140 and mouseY <= 190 then
                 shopFunc:PlasticHangerBuy()
+                hoverOrUnhover = 2
             elseif mouseX >= 300 and mouseX <= 350 and mouseY >= 140 and mouseY <= 190 then
                 shopFunc:CopperHangerBuy()
+                hoverOrUnhover = 3
             elseif mouseX >= 400 and mouseX <= 450 and mouseY >= 140 and mouseY <= 190 then
+                shopFunc:SteelHangerBuy()
+                hoverOrUnhover = 4
+            elseif mouseX >= 500 and mouseX <= 550 and mouseY >= 140 and mouseY <= 190 then
+                shopFunc:IronHangerBuy()
+                hoverOrUnhover = 6
+            elseif mouseX >= 100 and mouseX <= 150 and mouseY >= 220 and mouseY <= 270 then -- Clicker Power will ALWAYS be last. 
                 shopFunc:ClickPowerBuy()
+                hoverOrUnhover = 5
             end
             if input:getActiveDevice() == "joy" then
                 if buttonSelection == 1 then
@@ -54,6 +78,10 @@ return { -- This file is where all the shop functions are stored.
                 elseif buttonSelection == 3 then
                     shopFunc:CopperHangerBuy()
                 elseif buttonSelection == 4 then
+                    shopFunc:SteelHangerBuy()
+                elseif buttonSelection == 5 then
+                    shopFunc:IronHangerBuy()
+                elseif buttonSelection == #shop then
                     shopFunc:ClickPowerBuy()
                 end
             end
@@ -108,25 +136,57 @@ return { -- This file is where all the shop functions are stored.
                 CHPS = CHPS + 5
             end
         else
-            if clicks >= shopPriceOG[3][2] then
+            if clicks >= shopPriceOG[3] then
                 copperHangerOwn = copperHangerOwn + 1
                 clicks = clicks - shopPriceOG[3]
                 CHPS = CHPS + 5
             end
         end
     end,
-    ClickPowerBuy = function()
-        if clickerPowerOwn >= 1 then
+    SteelHangerBuy = function()
+        if steelHangerOwn >= 1 then
             if clicks >= shop[4][2] then
                 price = shop[4][2]
+                steelHangerOwn = steelHangerOwn + 1
+                clicks = clicks - price
+                CHPS = CHPS + 10
+            end
+        else
+            if clicks >= shopPriceOG[4] then
+                steelHangerOwn = steelHangerOwn + 1
+                clicks = clicks - shopPriceOG[4]
+                CHPS = CHPS + 10
+            end
+        end
+    end,
+    IronHangerBuy = function()
+        if ironHangerOwn >= 1 then
+            if clicks >= shop[5][2] then
+                price = shop[5][2]
+                ironHangerOwn = ironHangerOwn + 1
+                clicks = clicks - price
+                CHPS = CHPS + 20
+            end
+        else
+            if clicks >= shopPriceOG[5] then
+                ironHangerOwn = ironHangerOwn + 1
+                clicks = clicks - shopPriceOG[5]
+                CHPS = CHPS + 20
+            end
+        end
+    end,
+    ClickPowerBuy = function()
+        if clickerPowerOwn >= 1 then
+            if clicks >= shop[5][2] then
+                price = shop[5][2]
                 clickerPowerOwn = clickerPowerOwn + 1
                 clicks = clicks - price
                 clickUpgrade = clickUpgrade + 1
             end
         else
-            if clicks >= shopPriceOG[2] then
+            if clicks >= shopPriceOG[5] then
                 clickerPowerOwn = clickerPowerOwn + 1
-                clicks = clicks - shopPriceOG[2]
+                clicks = clicks - shopPriceOG[5]
                 clickUpgrade = clickUpgrade + 1
             end
         end
@@ -141,7 +201,12 @@ return { -- This file is where all the shop functions are stored.
         for i = 1, #shop do
             love.graphics.rectangle("fill", 100*i, 140, 50,50)
             love.graphics.print(i, 23 + 100*i,195)
+            for k = 1, 1 do -- row 2 
+                love.graphics.rectangle("fill", 100*k, 230, 50,50)
+                love.graphics.print(i, 23 + 100*k,285)
+            end
         end
+        
 
         love.graphics.print("| Shop (In order) |", 0, 280)
         for i = 1, #shop do
