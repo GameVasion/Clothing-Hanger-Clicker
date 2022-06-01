@@ -10,7 +10,7 @@ return {
                 x = 335,
                 y = 350
             },
-            "out-elastic"
+            "out-back"
         )
     end,
     update = function(dt)
