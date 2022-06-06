@@ -66,7 +66,7 @@ return { -- This file is where all the shop functions are stored.
             elseif mouseX >= 500 and mouseX <= 550 and mouseY >= 140 and mouseY <= 190 then
                 shopFunc:IronHangerBuy()
                 hoverOrUnhover = 5
-            elseif mouseX >= 600 and mouseX <= 650 and mouseY >= 140 and mouseY <= 190 then -- Clicker Power will ALWAYS be last. 
+            elseif mouseX >= 100 and mouseX <= 150 and mouseY >= 230 and mouseY <= 280 then -- Clicker Power will ALWAYS be last. 
                 shopFunc:ClickPowerBuy()
                 hoverOrUnhover = 6
             end
@@ -177,30 +177,34 @@ return { -- This file is where all the shop functions are stored.
     end,
     ClickPowerBuy = function()
         if clickerPowerOwn >= 1 then
-            if clicks >= shop[5][2] then
-                price = shop[5][2]
+            if clicks >= shop[#shop][2] then
+                price = shop[#shop][2]
                 clickerPowerOwn = clickerPowerOwn + 1
                 clicks = clicks - price
                 clickUpgrade = clickUpgrade + 1
             end
         else
-            if clicks >= shopPriceOG[5] then
+            if clicks >= shopPriceOG[#shop] then
                 clickerPowerOwn = clickerPowerOwn + 1
-                clicks = clicks - shopPriceOG[5]
+                clicks = clicks - shopPriceOG[#shop]
                 clickUpgrade = clickUpgrade + 1
             end
         end
     end,
     drawUI = function()
         if input:getActiveDevice() == "joy" then
-            for i = 0, #shop-1 do -- will need to test this
-                love.graphics.rectangle("line", 95, 35 + (100 * i), 60,60)
+            for i = 1, #shop do -- will need to test this
+                love.graphics.rectangle("line", 95, -65 + (100 * i), 60,60)
             end
         end
 
-        for i = 1, #shop do
+        for i = 1, 5 do
             love.graphics.rectangle("fill", 100*i, 140, 50,50)
             love.graphics.print(i, 23 + 100*i,195)
+        end
+        for i = 1, 1 do 
+            love.graphics.rectangle("fill", 100*i, 230, 50,50)
+            love.graphics.print(i+5, 23 + 100*i,290)
         end
         
 

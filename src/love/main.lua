@@ -75,7 +75,7 @@ function love.load()
         ironHangerOwn = f.savefile.saveironHangerOwn
         saveVer = f.savefile.saveVer
     end -- removed elseif statement to fix saves
-    if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 5 then -- if there is no save file or the save file is outdated
+    if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 6 then -- if there is no save file or the save file is outdated
         love.window.showMessageBox(
             "Save Error",
             "Old/Unavailable savefile detected.\
@@ -91,7 +91,7 @@ function love.load()
         copperHangerOwn = 0
         steelHangerOwn = 0
         ironHangerOwn = 0
-        saveVer = 5
+        saveVer = 6
     end
 
     love.window.setIcon(love.image.newImageData("icon.png"))
