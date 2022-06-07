@@ -109,14 +109,6 @@ function love.update(dt)
     graphics.screenBase(lovesize.getWidth(), lovesize.getHeight())
     Gamestate.update(dt)
     Timer.update(dt)
-
-    --[[
-    timer = timer + dt
-    if timer >= 1.4 then
-        clicks = clicks + CHPS
-        timer = 0  
-    end
-    --]]
     
     mouseX = love.mouse.getX()
     mouseY = love.mouse.getY()
