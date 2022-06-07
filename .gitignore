@@ -1,4 +1,4 @@
-*.DS_Store
+.DS_Store
 build/
 resources/macos/love.app/*
 resources/win32/love/*
