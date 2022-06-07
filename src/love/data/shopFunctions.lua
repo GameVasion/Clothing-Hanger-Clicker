@@ -193,8 +193,15 @@ return { -- This file is where all the shop functions are stored.
     end,
     drawUI = function()
         if input:getActiveDevice() == "joy" then
-            for i = 1, #shop do -- will need to test this
-                love.graphics.rectangle("line", 95, -65 + (100 * i), 60,60)
+            for i = 1, 5 do -- will need to test this
+                if buttonSelection ~= 6 then
+                    love.graphics.rectangle("line", 95, -65 + (100 * i), 60,60)
+                end
+            end
+            for i = 1, 1 do
+                if buttonSelection >= 6 then
+                    love.graphics.rectangle("line", 95, 230 - 105 + (100 * i), 60,60)
+                end
             end
         end
 
