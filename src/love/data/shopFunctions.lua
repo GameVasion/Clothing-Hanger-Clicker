@@ -23,32 +23,32 @@ return { -- This file is where all the shop functions are stored.
         if miniHangerOwn == 0 then
             shop[1][2] = shopPriceOG[1]
         else
-            shop[1][2] = math.floor(shopPriceOG[1] * (miniHangerOwn * 1.1))
+            shop[1][2] = math.floor(shopPriceOG[1] * (miniHangerOwn * 1.12))
         end
         if plasticHangerOwn == 0 then
             shop[2][2] = shopPriceOG[2]
         else
-            shop[2][2] = math.floor(shopPriceOG[2] * (plasticHangerOwn * 1.1))
+            shop[2][2] = math.floor(shopPriceOG[2] * (plasticHangerOwn * 1.12))
         end
         if copperHangerOwn == 0 then
             shop[3][2] = shopPriceOG[3]
         else
-            shop[3][2] = math.floor(shopPriceOG[3] * (copperHangerOwn * 1.1))
+            shop[3][2] = math.floor(shopPriceOG[3] * (copperHangerOwn * 1.12))
         end
         if steelHangerOwn == 0 then
             shop[4][2] = shopPriceOG[4]
         else
-            shop[4][2] = math.floor(shopPriceOG[4] * (steelHangerOwn * 1.1))
+            shop[4][2] = math.floor(shopPriceOG[4] * (steelHangerOwn * 1.12))
         end
         if ironHangerOwn == 0 then
             shop[5][2] = shopPriceOG[5]
         else
-            shop[5][2] = math.floor(shopPriceOG[5] * (ironHangerOwn * 1.1))
+            shop[5][2] = math.floor(shopPriceOG[5] * (ironHangerOwn * 1.12))
         end
         if clickerPowerOwn == 0 then
             shop[6][2] = shopPriceOG[6]
         else
-            shop[6][2] = math.floor(shopPriceOG[6] * (clickerPowerOwn * 1.1))
+            shop[6][2] = math.floor(shopPriceOG[6] * (clickerPowerOwn * 1.12))
         end
         if input:pressed("gameClick") then
             if mouseX >= 100 and mouseX <= 150 and mouseY >= 140 and mouseY <= 190 then
