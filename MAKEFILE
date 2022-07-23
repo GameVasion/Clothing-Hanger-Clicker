@@ -65,7 +65,7 @@ switch: lovefile
 	@rm -rf build/switch
 	@mkdir -p build/switch/switch/clothing-hanger-clicker
 
-	@C:/devkitPro/tools/bin/nacptool.exe --create "Clothing Hanger Clicker" GameVasion "0.1.0" build/switch/clothing-hanger-clicker.nacp
+	@C:/devkitPro/tools/bin/nacptool.exe --create "Clothing Hanger Clicker" GameVasion "$(shell cat src/love/version.txt)" build/switch/clothing-hanger-clicker.nacp
 
 	@mkdir build/switch/romfs
 	@cp build/lovefile/clothing-hanger-clicker.love build/switch/romfs/game.love

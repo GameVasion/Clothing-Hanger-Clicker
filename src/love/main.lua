@@ -101,6 +101,9 @@ function love.load()
         table.insert(__OWNED, 0) -- makes sure Clicker Power is ALWAYS last
         saveVer = 2
     end
+    if love.filesystem.getInfo("version.txt") then
+        __VERSION__ = love.filesystem.read("version.txt")
+    end
 
     love.window.setIcon(love.image.newImageData("icon.png"))
 
@@ -154,15 +157,13 @@ function love.draw()
             "\nCHPS: " .. CHPS 
         )
     end
-    if Gamestate.current() == startMenu then
-        for i = 1, #__OWNED do
-            love.graphics.print(
-                __OWNED[i],
-                0,
-                10 * i
-            )
-        end
-    end
+    love.graphics.printf(
+            "Version: " .. __VERSION__,
+            615,
+            602,
+            100,
+            "right"
+        )
     if not love.filesystem.isFused() then love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY,620) end
     
 end
