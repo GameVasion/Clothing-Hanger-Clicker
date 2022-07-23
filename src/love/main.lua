@@ -78,7 +78,7 @@ function love.load()
             [5] = f.savefile.saveironHangerOwn,
             [6] = f.savefile.savegoldHangerOwn
         }
-        table.insert(__OWNED, f.savefile.saveclickerPowerOwn) -- makes sures Clicker Power is ALWAYS last
+        table.insert(__OWNED, f.savefile.saveclickerPowerOwn) -- makes sure Clicker Power is ALWAYS last
         saveVer = f.savefile.saveVer
     end -- removed elseif statement to fix saves
     if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 2 then -- if there is no save file or the save file is outdated
