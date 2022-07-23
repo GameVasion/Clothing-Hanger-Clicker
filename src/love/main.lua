@@ -26,8 +26,6 @@ function love.load()
         f.savefile = {
             saveClicks = clicks,
             saveminiHangerOwn = __OWNED[1],
-            
-            
             saveplasticHangerOwn = __OWNED[2],
             savecopperHangerOwn = __OWNED[3],
             savesteelHangerOwn = __OWNED[4],
@@ -158,14 +156,13 @@ function love.draw()
         )
     end
     love.graphics.printf(
-            "Version: " .. __VERSION__,
-            615,
-            602,
-            100,
-            "right"
-        )
+        "Version: " .. __VERSION__,
+        615,
+        602,
+        100,
+        "right"
+    )
     if not love.filesystem.isFused() then love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY,620) end
-    
 end
 
 function love.quit()
