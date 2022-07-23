@@ -17,10 +17,10 @@ return {
         if input:pressed("gameClick") then
             if input:getActiveDevice() ~= "joy" then
                 if mouseX >= 156 and mouseX <= 535 and mouseY >= 218 and mouseY <= 446 then
-                    clicks = clicks + 1 + clickUpgrade
+                    clicks = clicks + 1 + __OWNED[#__OWNED]
                 end
             else
-                clicks = clicks + 1 + clickUpgrade
+                clicks = clicks + 1 + __OWNED[#__OWNED]
             end
         end
     end,

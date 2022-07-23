@@ -25,15 +25,18 @@ function love.load()
         f = {}
         f.savefile = {
             saveClicks = clicks,
-            saveminiHangerOwn = miniHangerOwn,
-            saveclickerPowerOwn = clickerPowerOwn,
-            saveCHPS = CHPS,
-            saveClickUpgrade = clickUpgrade,
-            saveplasticHangerOwn = plasticHangerOwn,
-            savecopperHangerOwn = copperHangerOwn,
-            savesteelHangerOwn = steelHangerOwn,
-            saveironHangerOwn = ironHangerOwn,
+            saveminiHangerOwn = __OWNED[1],
+            
+            
+            saveplasticHangerOwn = __OWNED[2],
+            savecopperHangerOwn = __OWNED[3],
+            savesteelHangerOwn = __OWNED[4],
+            saveironHangerOwn = __OWNED[5],
+            savegoldHangerOwn = __OWNED[6],
 
+            saveclickerPowerOwn = __OWNED[#__OWNED],
+
+            saveCHPS = CHPS,
             saveVer = saveVer
         }
     
@@ -67,16 +70,18 @@ function love.load()
 
         clicks = f.savefile.saveClicks
         CHPS = f.savefile.saveCHPS
-        clickUpgrade = f.savefile.saveClickUpgrade
-        miniHangerOwn = f.savefile.saveminiHangerOwn
-        clickerPowerOwn = f.savefile.saveclickerPowerOwn
-        plasticHangerOwn = f.savefile.saveplasticHangerOwn
-        copperHangerOwn = f.savefile.savecopperHangerOwn
-        steelHangerOwn = f.savefile.savesteelHangerOwn
-        ironHangerOwn = f.savefile.saveironHangerOwn
+        __OWNED = {
+            [1] = f.savefile.saveminiHangerOwn,
+            [2] = f.savefile.saveplasticHangerOwn,
+            [3] = f.savefile.savecopperHangerOwn,
+            [4] = f.savefile.savesteelHangerOwn,
+            [5] = f.savefile.saveironHangerOwn,
+            [6] = f.savefile.savegoldHangerOwn
+        }
+        table.insert(__OWNED, f.savefile.saveclickerPowerOwn) -- makes sures Clicker Power is ALWAYS last
         saveVer = f.savefile.saveVer
     end -- removed elseif statement to fix saves
-    if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 1 then -- if there is no save file or the save file is outdated
+    if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 2 then -- if there is no save file or the save file is outdated
         love.window.showMessageBox(
             "Save Error",
             "Old/Unavailable savefile detected.\
@@ -85,14 +90,16 @@ function love.load()
         )
         clicks = 0
         CHPS = 0
-        clickUpgrade = 0
-        miniHangerOwn = 0
-        clickerPowerOwn = 0
-        plasticHangerOwn = 0
-        copperHangerOwn = 0
-        steelHangerOwn = 0
-        ironHangerOwn = 0
-        saveVer = 1
+        __OWNED = {
+            [1] = 0, -- Mini Hanger
+            [2] = 0, -- Plastic Hanger
+            [3] = 0, -- Copper Hanger
+            [4] = 0, -- Steel Hanger
+            [5] = 0, -- Iron Hanger
+            [6] = 0, -- Gold Hanger
+        }
+        table.insert(__OWNED, 0) -- makes sure Clicker Power is ALWAYS last
+        saveVer = 2
     end
 
     love.window.setIcon(love.image.newImageData("icon.png"))
@@ -146,6 +153,15 @@ function love.draw()
             "Clicks: " .. clicks ..
             "\nCHPS: " .. CHPS 
         )
+    end
+    if Gamestate.current() == startMenu then
+        for i = 1, #__OWNED do
+            love.graphics.print(
+                __OWNED[i],
+                0,
+                10 * i
+            )
+        end
     end
     if not love.filesystem.isFused() then love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY,620) end
     
