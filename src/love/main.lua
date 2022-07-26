@@ -101,6 +101,8 @@ function love.load()
     end
     if love.filesystem.getInfo("version.txt") then
         __VERSION__ = love.filesystem.read("version.txt")
+    else
+        __VERSION__ = "UNKNOWN"
     end
 
     love.window.setIcon(love.image.newImageData("icon.png"))
