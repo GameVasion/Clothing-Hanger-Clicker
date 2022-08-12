@@ -21,6 +21,15 @@ function love.load()
     shopFunc = require "data.shopFunctions"-- Shop data
     clickerFunc = require "data.clickerFunctions"-- Clicker data
 
+    sounds = {
+        shopBuy = {
+            [1] = love.audio.newSource("audio/shopBuy.wav", "static")
+        },
+        hangerClick = {
+            [1] = love.audio.newSource("audio/hangerClick.wav", "static") -- Unused (I hate the sound)
+        }
+    }
+
     function saveGame()
         f = {}
         f.savefile = {

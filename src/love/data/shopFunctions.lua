@@ -49,6 +49,12 @@ return { -- This file is where all the shop functions are stored.
                 end
             end
             if buttonSelection ~= 0 then
+                if sounds.shopBuy[#sounds.shopBuy]:isPlaying() then
+                    sounds.shopBuy[#sounds.shopBuy] = sounds.shopBuy[#sounds.shopBuy]:clone()
+                    sounds.shopBuy[#sounds.shopBuy]:play()
+                else
+                    sounds.shopBuy[#sounds.shopBuy]:play()
+                end
                 if not shop[buttonSelection][4] then
                     if clicks >= shop[buttonSelection][2] then
                         __OWNED[buttonSelection] = __OWNED[buttonSelection] + 1
