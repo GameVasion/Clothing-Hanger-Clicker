@@ -93,11 +93,11 @@ return { -- This file is where all the shop functions are stored.
         end
 
         for i = 1, 5 do
-            love.graphics.rectangle("fill", 100*i, 140, 50,50)
+            love.graphics.rectangle("fill", 100*i, 140, 50,50, 10, 10, 100)
             love.graphics.print(i, 23 + 100*i,195)
         end
         for i = 1, 2 do 
-            love.graphics.rectangle("fill", 100*i, 230, 50,50)
+            love.graphics.rectangle("fill", 100*i, 230, 50,50, 10, 10, 100)
             love.graphics.print(i+5, 23 + 100*i,290)
         end
         
