@@ -7,6 +7,7 @@ function love.load()
     lovesize = require "lib.lovesize"
     lume = require "lib.lume"
     Timer = require "lib.timer"
+    encoder = require "lib.encoder"
 
     -- load modules
     graphics = require "modules.graphics"
@@ -46,9 +47,10 @@ function love.load()
             saveCHPS = CHPS,
             saveVer = saveVer
         }
-    
         serialized = lume.serialize(f)
-        love.filesystem.write("savedata.chcsave", serialized)
+        love.filesystem.write(".chcsave", serialized)
+        ascii = encoder.encode(lume.serialize(f.savefile, ".chcsave"))
+        love.filesystem.write(".chcsave", ascii)
     end
 
     function autoHanger()
@@ -71,24 +73,24 @@ function love.load()
     timer = 0
     shop1Price = 10
     shop2Price = 50
-    if love.filesystem.getInfo("savedata.chcsave") then
-        savefile = love.filesystem.read("savedata.chcsave")
-        f = lume.deserialize(savefile)
+    if love.filesystem.getInfo(".chcsave") then
+        savefile = love.filesystem.read(".chcsave")
+        f = lume.deserialize(encoder.decode(love.filesystem.read(".chcsave")))
 
-        clicks = f.savefile.saveClicks
-        CHPS = f.savefile.saveCHPS
+        clicks = f.saveClicks
+        CHPS = f.saveCHPS
         __OWNED = {
-            [1] = f.savefile.saveminiHangerOwn,
-            [2] = f.savefile.saveplasticHangerOwn,
-            [3] = f.savefile.savecopperHangerOwn,
-            [4] = f.savefile.savesteelHangerOwn,
-            [5] = f.savefile.saveironHangerOwn,
-            [6] = f.savefile.savegoldHangerOwn
+            [1] = f.saveminiHangerOwn,
+            [2] = f.saveplasticHangerOwn,
+            [3] = f.savecopperHangerOwn,
+            [4] = f.savesteelHangerOwn,
+            [5] = f.saveironHangerOwn,
+            [6] = f.savegoldHangerOwn
         }
-        table.insert(__OWNED, f.savefile.saveclickerPowerOwn) -- makes sure Clicker Power is ALWAYS last
-        saveVer = f.savefile.saveVer
+        table.insert(__OWNED, f.saveclickerPowerOwn) -- makes sure Clicker Power is ALWAYS last
+        saveVer = f.saveVer
     end -- removed elseif statement to fix saves
-    if not love.filesystem.getInfo("savedata.chcsave") or saveVer ~= 2 then -- if there is no save file or the save file is outdated
+    if not love.filesystem.getInfo(".chcsave") or saveVer ~= 2 then -- if there is no save file or the save file is outdated
         love.window.showMessageBox(
             "Save Error",
             "Old/Unavailable savefile detected.\
