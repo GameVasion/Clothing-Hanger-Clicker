@@ -8,6 +8,9 @@ function love.load()
     lume = require "lib.lume"
     Timer = require "lib.timer"
     encoder = require "lib.encoder"
+    loveframes = require("lib.LoveFrames")
+    require 'lib/lovefs/lovefs'
+    require 'lib/lovefs/loveframesDialog'
 
     -- load modules
     graphics = require "modules.graphics"
@@ -48,9 +51,9 @@ function love.load()
             saveVer = saveVer
         }
         serialized = lume.serialize(f)
-        love.filesystem.write(".chcsave", serialized)
-        ascii = encoder.encode(lume.serialize(f.savefile, ".chcsave"))
-        love.filesystem.write(".chcsave", ascii)
+        love.filesystem.write("kms.chcsave", serialized)
+        ascii = encoder.encode(lume.serialize(f.savefile, "kms.chcsave"))
+        love.filesystem.write("kms.chcsave", ascii)
     end
 
     function autoHanger()
@@ -63,6 +66,14 @@ function love.load()
         )
     end
     autoHanger()
+    fsload = lovefs()
+    btload = loveframes.Create('button', window)	
+	btload:SetPos(0,0)
+	btload:SetSize(200, 40)
+	btload:SetText('Load save file')
+    btload.OnClick = function(object)
+		fsload:loadDialog(loveframes, nil, {'All | *.*',})
+	end
 
     love.graphics.setDefaultFilter("nearest")
     clothingHanger = graphics.newImage(love.graphics.newImage(graphics.imagePath("clothingHanger")))
@@ -73,9 +84,9 @@ function love.load()
     timer = 0
     shop1Price = 10
     shop2Price = 50
-    if love.filesystem.getInfo(".chcsave") then
-        savefile = love.filesystem.read(".chcsave")
-        f = lume.deserialize(encoder.decode(love.filesystem.read(".chcsave")))
+    if love.filesystem.getInfo("kms.chcsave") then
+        savefile = love.filesystem.read("kms.chcsave")
+        f = lume.deserialize(encoder.decode(love.filesystem.read("kms.chcsave")))
 
         clicks = f.saveClicks
         CHPS = f.saveCHPS
@@ -90,7 +101,7 @@ function love.load()
         table.insert(__OWNED, f.saveclickerPowerOwn) -- makes sure Clicker Power is ALWAYS last
         saveVer = f.saveVer
     end -- removed elseif statement to fix saves
-    if not love.filesystem.getInfo(".chcsave") or saveVer ~= 2 then -- if there is no save file or the save file is outdated
+    if not love.filesystem.getInfo("kms.chcsave") or saveVer ~= 2 then -- if there is no save file or the save file is outdated
         love.window.showMessageBox(
             "Save Error",
             "Old/Unavailable savefile detected.\
@@ -126,7 +137,16 @@ function love.load()
 end
 
 function love.update(dt)
+    if Gamestate.current() == startMenu then
+        if fsload.selectedFile then
+            ext = fsload.selectedFile:match('[^'..fsload.sep..']+$'):match('[^.]+$')
+            if ext == 'chcsave' then
+                newImage = fsload:loadSave()
+            end
+        end
+    end
     input:update()
+    loveframes.update(dt)
     graphics.screenBase(lovesize.getWidth(), lovesize.getHeight())
     Gamestate.update(dt)
     Timer.update(dt)
@@ -154,6 +174,21 @@ end
 
 function love.mousepressed(x, y, button, istouch, presses)
 	Gamestate.mousepressed(x, y, button, istouch, presses)
+    loveframes.mousepressed(x, y, button)
+end
+function love.mousereleased(x, y, button)
+	loveframes.mousereleased(x, y, button)
+end
+function love.keypressed(key, unicode)
+	loveframes.keypressed(key, unicode)
+end
+
+function love.keyreleased(key, unicode)
+	loveframes.keyreleased(key)
+end
+
+function love.textinput(text)
+	loveframes.textinput(text)
 end
 
 function love.draw()
@@ -175,6 +210,9 @@ function love.draw()
         100,
         "right"
     )
+    if Gamestate.current() == startMenu then
+        loveframes.draw()
+    end
     if not love.filesystem.isFused() then love.graphics.print("\n\n\n\n\n\nDEBUG\nMouse X: " .. mouseX .. "\nMouse Y: " .. mouseY,620) end
 end
 
