@@ -7,7 +7,7 @@ function love.load()
     lovesize = require "lib.lovesize"
     lume = require "lib.lume"
     Timer = require "lib.timer"
-    encoder = require "lib.encoder"
+    fuck = require "lib.fuck"
     loveframes = require("lib.LoveFrames")
     require 'lib/lovefs/lovefs'
     require 'lib/lovefs/loveframesDialog'
@@ -47,13 +47,15 @@ function love.load()
 
             saveclickerPowerOwn = __OWNED[#__OWNED],
 
-            saveCHPS = CHPS,
+            saveCHPs = CHPS,
             saveVer = saveVer
         }
         serialized = lume.serialize(f)
-        love.filesystem.write("kms.chcsave", serialized)
-        ascii = encoder.encode(lume.serialize(f.savefile, "kms.chcsave"))
-        love.filesystem.write("kms.chcsave", ascii)
+        love.filesystem.write("die.chcsave", serialized)
+        tableStr = lume.serialize(f.savefile, "die.chcsave")
+        print(tableStr)
+        fuckStr = fuck:e(tostring(tableStr))
+        love.filesystem.write("die.chcsave", fuckStr)
     end
 
     function autoHanger()
@@ -84,12 +86,14 @@ function love.load()
     timer = 0
     shop1Price = 10
     shop2Price = 50
-    if love.filesystem.getInfo("kms.chcsave") then
-        savefile = love.filesystem.read("kms.chcsave")
-        f = lume.deserialize(encoder.decode(love.filesystem.read("kms.chcsave")))
+    if love.filesystem.getInfo("die.chcsave") then
+        savefile = love.filesystem.read("die.chcsave")
+        f = lume.deserialize(fuck:d(love.filesystem.read("die.chcsave")))
+        print(lume.serialize(fuck:d(love.filesystem.read("die.chcsave")), "die.chcsave"))
+        print(lume.deserialize(fuck:d(love.filesystem.read("die.chcsave"))))
 
         clicks = f.saveClicks
-        CHPS = f.saveCHPS
+        CHPS = f.saveCHPs or 0
         __OWNED = {
             [1] = f.saveminiHangerOwn,
             [2] = f.saveplasticHangerOwn,
@@ -101,7 +105,7 @@ function love.load()
         table.insert(__OWNED, f.saveclickerPowerOwn) -- makes sure Clicker Power is ALWAYS last
         saveVer = f.saveVer
     end -- removed elseif statement to fix saves
-    if not love.filesystem.getInfo("kms.chcsave") or saveVer ~= 2 then -- if there is no save file or the save file is outdated
+    if not love.filesystem.getInfo("die.chcsave") or saveVer ~= 2 then -- if there is no save file or the save file is outdated
         love.window.showMessageBox(
             "Save Error",
             "Old/Unavailable savefile detected.\

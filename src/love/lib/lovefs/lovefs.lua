@@ -284,7 +284,7 @@ function filesystem:loadSave(source)
 	source = self:absPath(source)
 	love.filesystem.createDirectory('lovefs_temp')
 	self:copy(source, love.filesystem.getSaveDirectory()..'/lovefs_temp/temp.file')
-	f = lume.deserialize(encoder.decode(love.filesystem.read("lovefs_temp/temp.file")))
+	f = lume.deserialize(fuck:d(love.filesystem.read("lovefs_temp/temp.file")))
 	clicks = f.saveClicks
     CHPS = f.saveCHPS
     __OWNED = {
