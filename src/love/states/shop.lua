@@ -1,10 +1,9 @@
 local shop = {}
 local hangerButtons = {}
-local clickerButtons = {}
+local pageButton
 
 function shop:enter()
     hangerButtons = {}
-    clickerButtons = {}
 
     -- for all in hangers, add a button to hangerButtons
     for i, v in pairs(hangers) do
@@ -15,13 +14,17 @@ function shop:enter()
     table.sort(hangerButtons, function(a, b) return a.data.ogPrice < b.data.ogPrice end)
 
     -- organize hangarButtons into a grid
+    curPage = 1
     pages = {{}}
     local x = 10
     local y = 115
+    local currPage = 1
+    local lastPage = 1
     for i, v in ipairs(hangerButtons) do
         -- there can be 4 rows of buttons per page
-        if i % 3 == 0 then
+        if i % 10 == 0 then
             table.insert(pages, {})
+            currPage = currPage + 1
         end
         v.x = x
         v.y = y
@@ -31,12 +34,22 @@ function shop:enter()
             y = y + v.height + 10
         end
 
+        -- change y if page is not 1
+        -- set y back to 0 if its a new page
+        if currPage ~= lastPage then
+            y = 115
+            v.y = y
+        end
+        print(currPage, lastPage)
+
         table.insert(pages[#pages], v)
+
+        lastPage = currPage
     end
 
-    -- for all in clickers, add a button to clickerButtons
-    for i, v in pairs(clickers) do
-        --table.insert(clickerButtons, graphics.newButton(10, 10, 100, 100, v.name .. '\n$' .. v.data.price .. '\nCHPS: ' .. v.data.CHPS))
+    if #pages > 1 then
+        -- add a next button
+        pageButton = graphics.newButton(push.getWidth() - 110, push.getHeight() - 110, 100, 100, "->")
     end
 
     backButton = graphics.newButton(push.getWidth() - 110, push.getHeight() - 110, 100, 100, "Back")
@@ -61,18 +74,29 @@ function shop:update(dt)
     if backButton:isClicked() then
         state.switch(states.play)
     end
+
+    if pageButton and pageButton:isClicked() then
+        curPage = curPage + 1
+        if curPage > #pages then
+            curPage = 1
+        end
+    end
 end
 
 function shop:draw()
-    for i, v in ipairs(hangerButtons) do
+    for i, v in ipairs(pages[curPage]) do
         v:draw()
     end
 
-    for i, v in ipairs(clickerButtons) do
-        v:draw()
+    if pageButton then
+        backButton.x = 10
+        backButton.y = push.getHeight() - 110
     end
-
     backButton:draw()
+
+    if pageButton then
+        pageButton:draw()
+    end
 end
 
 function shop:mousepressed(x, y, button, istouch, presses)

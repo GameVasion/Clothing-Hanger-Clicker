@@ -1,8 +1,0 @@
-{
-    "name": "ClickerPower",
-    "data": {
-        "price": 10,
-        "CHPS": 1
-    },
-    "isClicker": false
-}

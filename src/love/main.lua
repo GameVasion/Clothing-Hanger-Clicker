@@ -13,6 +13,7 @@ function love.load()
 
     -- Modules
     graphics = require "modules.graphics"
+    mod = require "modules.mod"
 
     push.setupScreen(800, 600, {upscale="normal"})
 
@@ -40,10 +41,8 @@ function love.load()
     state.switch(states[curState])
 
     hangers = {}
-    clickers = {}
 
     boughtHangers = {}
-    boughtClickers = {}
 
     -- for all in data/hangers, load the json file
     for _, file in ipairs(love.filesystem.getDirectoryItems("data/hangers")) do
@@ -55,29 +54,15 @@ function love.load()
         end
     end
 
-    -- for all in data/clickers, load the json file
-    for _, file in ipairs(love.filesystem.getDirectoryItems("data/clickers")) do
-        if file:sub(-5) == ".json" then
-            local name = file:sub(1, -6)
-            local data = json.decode(love.filesystem.read("data/clickers/" .. file))      
-            data.data.ogPrice = data.data.price
-            clickers[data.name] = data   
-        end
-    end
-
     -- for all in hangers, add a variable to boughtHangers
     for k, v in pairs(hangers) do
         boughtHangers[v.name] = 0
     end
 
-    -- for all in clickers, add a variable to boughtClickers
-    for k, v in pairs(clickers) do
-        boughtClickers[v.name] = 0
-    end
-
     -- sort the hangers table by price
     table.sort(hangers, function(a, b) return a.data.price < b.data.price end)
-    table.sort(clickers, function(a, b) return a.data.price < b.data.price end)
+
+    mod.loadCustomHangers()
 
     loadGame()
 end
@@ -86,7 +71,6 @@ function saveGame()
     local saveData = {
         clicks = clicks,
         hangers = boughtHangers,
-        clickers = boughtClickers,
 
         CHPS = CHPS,
         saveVer = saveVer,
@@ -104,7 +88,6 @@ function loadGame()
     saveVer = saveData.saveVer or 1
 
     boughtHangers = saveData.hangers or {}
-    boughtClickers = saveData.clickers or {}
 
     -- add all missing hangers
     for k, v in pairs(hangers) do
@@ -113,14 +96,7 @@ function loadGame()
         end
     end
 
-    -- add all missing clickers
-    for k, v in pairs(clickers) do
-        if not boughtClickers[v.name] then
-            boughtClickers[v.name] = 0
-        end
-    end
-
-    -- change price of hangers and clickers
+    -- change price of hangers
     for k, v in pairs(boughtHangers) do
         if v > 0 then
             hangers[k].data.price = hangers[k].data.price * (1.1 ^ v)
