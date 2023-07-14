@@ -1,16 +1,23 @@
-return {
-    enter = function()
-        shopFunc:enter()
-    end,
+local shop = {}
 
-    update = function(dt)
-        shopFunc:update(dt)
-        if input:pressed("shopButton") then
-            Gamestate.switch(clickerMenu)
-        end
-    end,
+function shop:enter()
+    
+end
 
-    draw = function()
-        shopFunc:drawUI()
-    end
-}
+function shop:update(dt)
+
+end
+
+function shop:draw()
+    
+end
+
+function shop:mousepressed(x, y, button, istouch, presses)
+
+end
+
+function shop:mousereleased(x, y, button, istouch, presses)
+
+end
+
+return shop

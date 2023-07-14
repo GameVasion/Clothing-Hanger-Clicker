@@ -1,347 +1,151 @@
---[[----------------------------------------------------------------------------
-This file is part of Friday Night Funkin' Rewritten
-Copyright (C) 2021  HTV04
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-------------------------------------------------------------------------------]]
+local graphics = {}
+graphics.cache = {}
 
-local imageType = "png"
-local fade = {1}
-local isFading = false
+function graphics.newImage(path)
+    local path = "assets/img/" .. path .. ".png"
 
-local fadeTimer
+    if not love.filesystem.getInfo(path) then
+        error("File " .. path .. " does not exist!")
+    end
 
-local screenWidth, screenHeight
+    if not graphics.cache[path] then
+        graphics.cache[path] = love.graphics.newImage(path)
+    end
 
-return {
-	screenBase = function(width, height)
-		screenWidth, screenHeight = width, height
-	end,
-	getWidth = function()
-		return screenWidth
-	end,
-	getHeight = function()
-		return screenHeight
-	end,
+    local object = {
+        x = 0,
+        y = 0,
+        width = graphics.cache[path]:getWidth(),
+        height = graphics.cache[path]:getHeight(),
 
-	imagePath = function(path)
-		local pathStr = "images/" .. imageType .. "/" .. path .. "." .. imageType
+        alignment = "top-left",
+        rotation = 0,
+        scale = 1,
+        opacity = 1,
 
-		if love.filesystem.getInfo(pathStr) then
-			return pathStr
-		else
-			return "images/png/" .. path .. ".png"
-		end
-	end,
-	setImageType = function(type)
-		imageType = type
-	end,
-	getImageType = function()
-		return imageType
-	end,
+        image = graphics.cache[path],
 
-	newImage = function(imageData, optionsTable)
-		local image, width, height
+        _type = "image",
 
-		local options
+        getWidth = function(self)
+            return self.width * self.scale
+        end,
 
-		local object = {
-			x = 0,
-			y = 0,
-			orientation = 0,
-			sizeX = 1,
-			sizeY = 1,
-			offsetX = 0,
-			offsetY = 0,
-			shearX = 0,
-			shearY = 0,
+        getHeight = function(self)
+            return self.height * self.scale
+        end,
 
-			setImage = function(self, imageData)
-				image = imageData
-				width = image:getWidth()
-				height = image:getHeight()
-			end,
+        draw = function(self)
+            local x, y = self.x, self.y
+            if self.alignment == "center" then
+                x = x - self.width / 2
+                y = y - self.height / 2
+            elseif self.alignment == "top-left" then
+                -- do nothing
+            elseif self.alignment == "top-right" then
+                x = x - self.width
+            elseif self.alignment == "bottom-left" then
+                y = y - self.height
+            elseif self.alignment == "bottom-right" then
+                x = x - self.width
+                y = y - self.height
+            end
+            -- get current color
+            local r, g, b, a = love.graphics.getColor()
+            love.graphics.setColor(r, g, b, self.opacity)
+            love.graphics.draw(self.image, x, y, self.rotation, self.scale, self.scale)
+            love.graphics.setColor(r, g, b, a)
+        end
+    }
 
-			getImage = function(self)
-				return image
-			end,
+    return object
+end
 
-			draw = function(self)
-				local x = self.x
-				local y = self.y
+function graphics.newButton(x,y,w,h,str)
+    local object = {
+        x = x or 0,
+        y = y or 0,
 
-				if options and options.floored then
-					x = math.floor(x)
-					y = math.floor(y)
-				end
+        width = w or 100,
+        height = h or 100,
 
-				love.graphics.draw(
-					image,
-					self.x,
-					self.y,
-					self.orientation,
-					self.sizeX,
-					self.sizeY,
-					math.floor(width / 2) + self.offsetX,
-					math.floor(height / 2) + self.offsetY,
-					self.shearX,
-					self.shearY
-				)
-			end
-		}
+        roundness = 10,
 
-		object:setImage(imageData)
+        color = {
+            r = 0.5,
+            g = 0.5,
+            b = 0.5,
+            a = 1
+        },
 
-		options = optionsTable
+        hoveredColor = {
+            r = 0.6,
+            g = 0.6,
+            b = 0.6,
+            a = 1
+        },
 
-		return object
-	end,
+        text = {
+            string = str or "Button",
+            font = love.graphics.newFont(20),
+            color = {
+                r = 1,
+                g = 1,
+                b = 1,
+                a = 1
+            },
+            hoveredColor = {
+                r = 1,
+                g = 1,
+                b = 1,
+                a = 1
+            }
+        },
 
-	newSprite = function(imageData, frameData, animData, animName, loopAnim, optionsTable)
-		local sheet, sheetWidth, sheetHeight
+        draw = function(self)
+            -- get current color
+            local r, g, b, a = love.graphics.getColor()
+            if self:isHovered() then
+                love.graphics.setColor(self.hoveredColor.r, self.hoveredColor.g, self.hoveredColor.b, self.hoveredColor.a)
+            else
+                love.graphics.setColor(self.color.r, self.color.g, self.color.b, self.color.a)
+            end
+            love.graphics.rectangle("fill", self.x, self.y, self.width, self.height, self.roundness)
+            love.graphics.setColor(r, g, b, a)
 
-		local frames = {}
-		local frame
-		local anims = animData
-		local anim = {
-			name = nil,
-			start = nil,
-			stop = nil,
-			speed = nil,
-			offsetX = nil,
-			offsetY = nil
-		}
+            -- get current font
+            local font = love.graphics.getFont()
+            love.graphics.setFont(self.text.font)
 
-		local isAnimated
-		local isLooped
+            -- get current color
+            local r, g, b, a = love.graphics.getColor()
+            if self:isHovered() then
+                love.graphics.setColor(self.text.hoveredColor.r, self.text.hoveredColor.g, self.text.hoveredColor.b, self.text.hoveredColor.a)
+            else
+                love.graphics.setColor(self.text.color.r, self.text.color.g, self.text.color.b, self.text.color.a)
+            end
+            love.graphics.printf(self.text.string, self.x, self.y + self.height / 2 - self.text.font:getHeight() / 2, self.width, "center")
+            love.graphics.setColor(r, g, b, a)
 
-		local options
+            -- set font back
+            love.graphics.setFont(font)
+        end,
 
-		local object = {
-			x = 0,
-			y = 0,
-			orientation = 0,
-			sizeX = 1,
-			sizeY = 1,
-			offsetX = 0,
-			offsetY = 0,
-			shearX = 0,
-			shearY = 0,
+        isHovered = function(self)
+            local x, y = love.mouse.getPosition()
+            
+            return x > self.x and
+                   x < self.x + self.width and
+                   y > self.y and
+                   y < self.y + self.height
+        end,
 
-			setSheet = function(self, imageData)
-				sheet = imageData
-				sheetWidth = sheet:getWidth()
-				sheetHeight = sheet:getHeight()
-			end,
+        isClicked = function(self)
+            return self:isHovered() and love.mouse.isDown(1)
+        end
+    }
 
-			getSheet = function(self)
-				return sheet
-			end,
+    return object
+end
 
-			animate = function(self, animName, loopAnim)
-				anim.name = animName
-				anim.start = anims[animName].start
-				anim.stop = anims[animName].stop
-				anim.speed = anims[animName].speed
-				anim.offsetX = anims[animName].offsetX
-				anim.offsetY = anims[animName].offsetY
-
-				frame = anim.start
-				isLooped = loopAnim
-
-				isAnimated = true
-			end,
-			getAnims = function(self)
-				return anims
-			end,
-			getAnimName = function(self)
-				return anim.name
-			end,
-			setAnimSpeed = function(self, speed)
-				anim.speed = speed
-			end,
-			isAnimated = function(self)
-				return isAnimated
-			end,
-			isLooped = function(self)
-				return isLooped
-			end,
-
-			setOptions = function(self, optionsTable)
-				options = optionsTable
-			end,
-			getOptions = function(self)
-				return options
-			end,
-
-			update = function(self, dt)
-				if isAnimated then
-					frame = frame + anim.speed * dt
-				end
-
-				if isAnimated and frame > anim.stop then
-					if isLooped then
-						frame = anim.start
-					else
-						isAnimated = false
-					end
-				end
-			end,
-			draw = function(self)
-				local flooredFrame = math.floor(frame)
-
-				if flooredFrame <= anim.stop then
-					local x = self.x
-					local y = self.y
-					local width
-					local height
-
-					if options and options.floored then
-						x = math.floor(x)
-						y = math.floor(y)
-					end
-
-					if options and options.noOffset then
-						if frameData[flooredFrame].offsetWidth ~= 0 then
-							width = frameData[flooredFrame].offsetX
-						end
-						if frameData[flooredFrame].offsetHeight ~= 0 then
-							height = frameData[flooredFrame].offsetY
-						end
-					else
-						if frameData[flooredFrame].offsetWidth == 0 then
-							width = math.floor(frameData[flooredFrame].width / 2)
-						else
-							width = math.floor(frameData[flooredFrame].offsetWidth / 2) + frameData[flooredFrame].offsetX
-						end
-						if frameData[flooredFrame].offsetHeight == 0 then
-							height = math.floor(frameData[flooredFrame].height / 2)
-						else
-							height = math.floor(frameData[flooredFrame].offsetHeight / 2) + frameData[flooredFrame].offsetY
-						end
-					end
-
-					love.graphics.draw(
-						sheet,
-						frames[flooredFrame],
-						x,
-						y,
-						self.orientation,
-						self.sizeX,
-						self.sizeY,
-						width + anim.offsetX + self.offsetX,
-						height + anim.offsetY + self.offsetY,
-						self.shearX,
-						self.shearY
-					)
-				end
-			end
-		}
-
-		object:setSheet(imageData)
-
-		for i = 1, #frameData do
-			table.insert(
-				frames,
-				love.graphics.newQuad(
-					frameData[i].x,
-					frameData[i].y,
-					frameData[i].width,
-					frameData[i].height,
-					sheetWidth,
-					sheetHeight
-				)
-			)
-		end
-
-		object:animate(animName, loopAnim)
-
-		options = optionsTable
-
-		return object
-	end,
-
-	setFade = function(value)
-		if fadeTimer then
-			Timer.cancel(fadeTimer)
-
-			isFading = false
-		end
-
-		fade[1] = value
-	end,
-	getFade = function(value)
-		return fade[1]
-	end,
-	fadeOut = function(duration, func)
-		if fadeTimer then
-			Timer.cancel(fadeTimer)
-		end
-
-		isFading = true
-
-		fadeTimer = Timer.tween(
-			duration,
-			fade,
-			{0},
-			"linear",
-			function()
-				isFading = false
-
-				if func then func() end
-			end
-		)
-	end,
-	fadeIn = function(duration, func)
-		if fadeTimer then
-			Timer.cancel(fadeTimer)
-		end
-
-		isFading = true
-
-		fadeTimer = Timer.tween(
-			duration,
-			fade,
-			{1},
-			"linear",
-			function()
-				isFading = false
-
-				if func then func() end
-			end
-		)
-	end,
-	isFading = function()
-		return isFading
-	end,
-
-	clear = function(r, g, b, a, s, d)
-		local fade = fade[1]
-
-		love.graphics.clear(fade * r, fade * g, fade * b, a, s, d)
-	end,
-	setColor = function(r, g, b, a)
-		local fade = fade[1]
-
-		love.graphics.setColor(fade * r, fade * g, fade * b, a)
-	end,
-	setBackgroundColor = function(r, g, b, a)
-		local fade = fade[1]
-
-		love.graphics.setBackgroundColor(fade * r, fade * g, fade * b, a)
-	end,
-	getColor = function()
-		local r, g, b, a = love.graphics.getColor()
-		local fade = fade[1]
-
-		return r / fade, g / fade, b / fade, a
-	end
-}
+return graphics
