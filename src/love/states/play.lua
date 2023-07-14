@@ -18,11 +18,11 @@ function play:update(dt)
 end
 
 function play:draw()
-    love.graphics.print("Clicks: " .. clicks, 10, 10)
-
     clothinghanger:draw()
 
     shopButton:draw()
+
+    love.graphics.printf("Clicks: " .. math.floor(clicks), 0, 0, love.graphics.getWidth(), "right")
 end
 
 function play:mousepressed(x, y, button, istouch, presses)

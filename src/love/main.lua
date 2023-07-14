@@ -2,7 +2,7 @@ function love.load()
     -- Libraries
     input = (require "lib.baton").new {
         controls = {
-            placeholder = {"key:space", "mouse:1"},
+            pressed = {"key:space", "mouse:1"},
         }
     }
     state = require "lib.gamestate"
@@ -49,7 +49,9 @@ function love.load()
     for _, file in ipairs(love.filesystem.getDirectoryItems("data/hangers")) do
         if file:sub(-5) == ".json" then
             local name = file:sub(1, -6)
-            hangers[name] = json.decode(love.filesystem.read("data/hangers/" .. file))
+            local data = json.decode(love.filesystem.read("data/hangers/" .. file))
+            data.data.ogPrice = data.data.price
+            hangers[data.name] = data     
         end
     end
 
@@ -57,19 +59,25 @@ function love.load()
     for _, file in ipairs(love.filesystem.getDirectoryItems("data/clickers")) do
         if file:sub(-5) == ".json" then
             local name = file:sub(1, -6)
-            clickers[name] = json.decode(love.filesystem.read("data/clickers/" .. file))
+            local data = json.decode(love.filesystem.read("data/clickers/" .. file))      
+            data.data.ogPrice = data.data.price
+            clickers[data.name] = data   
         end
     end
 
     -- for all in hangers, add a variable to boughtHangers
     for k, v in pairs(hangers) do
-        boughtHangers[k] = 0
+        boughtHangers[v.name] = 0
     end
 
     -- for all in clickers, add a variable to boughtClickers
     for k, v in pairs(clickers) do
-        boughtClickers[k] = 0
+        boughtClickers[v.name] = 0
     end
+
+    -- sort the hangers table by price
+    table.sort(hangers, function(a, b) return a.data.price < b.data.price end)
+    table.sort(clickers, function(a, b) return a.data.price < b.data.price end)
 
     loadGame()
 end
@@ -77,8 +85,8 @@ end
 function saveGame()
     local saveData = {
         clicks = clicks,
-        hangers = {},
-        clickers = {},
+        hangers = boughtHangers,
+        clickers = boughtClickers,
 
         CHPS = CHPS,
         saveVer = saveVer,
@@ -94,9 +102,34 @@ function loadGame()
     clicks = saveData.clicks or 0
     CHPS = saveData.CHPS or 0
     saveVer = saveData.saveVer or 1
+
+    boughtHangers = saveData.hangers or {}
+    boughtClickers = saveData.clickers or {}
+
+    -- add all missing hangers
+    for k, v in pairs(hangers) do
+        if not boughtHangers[v.name] then
+            boughtHangers[v.name] = 0
+        end
+    end
+
+    -- add all missing clickers
+    for k, v in pairs(clickers) do
+        if not boughtClickers[v.name] then
+            boughtClickers[v.name] = 0
+        end
+    end
+
+    -- change price of hangers and clickers
+    for k, v in pairs(boughtHangers) do
+        if v > 0 then
+            hangers[k].data.price = hangers[k].data.price * (1.1 ^ v)
+        end
+    end
 end
 
 function love.update(dt)
+    input:update()
     state.update(dt)
 
     timer = timer + dt
@@ -122,4 +155,8 @@ function love.draw()
     push.start()
     state.draw()
     push.finish()
+end
+
+function love.quit()
+    saveGame()
 end
