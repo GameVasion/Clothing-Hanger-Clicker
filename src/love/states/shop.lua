@@ -67,6 +67,8 @@ function shop:update(dt)
 
                 -- update the button text
                 v.text.string = v.name .. '\n$' .. math.floor(v.data.price) .. '\nCHPS: ' .. v.data.CHPS
+
+                sounds["shopBuy"]:play()
             end
         end
     end

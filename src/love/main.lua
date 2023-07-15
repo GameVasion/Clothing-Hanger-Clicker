@@ -13,13 +13,15 @@ function love.load()
 
     -- Modules
     graphics = require "modules.graphics"
+    sound = require "modules.sound"
     mod = require "modules.mod"
 
     push.setupScreen(800, 600, {upscale="normal"})
 
     clothinghanger = graphics.newImage("clothing_hanger")
-    clothinghanger.x = love.graphics.getWidth() / 2 - clothinghanger:getWidth() / 2
-    clothinghanger.y = love.graphics.getHeight() / 2 - clothinghanger:getHeight() / 2
+    clothinghanger.x = love.graphics.getWidth() / 2 
+    clothinghanger.y = love.graphics.getHeight() / 2
+    clothinghanger.alignment = "center"
 
     curState = "menu"
 
@@ -37,8 +39,6 @@ function love.load()
     CHPS = 0
 
     timer = 0
-
-    state.switch(states[curState])
 
     hangers = {}
 
@@ -65,6 +65,18 @@ function love.load()
     mod.loadCustomHangers()
 
     loadGame()
+
+    -- load all sounds in sounds/
+    sounds = {}
+    for _, file in ipairs(love.filesystem.getDirectoryItems("assets/sounds")) do
+        if file:sub(-4) == ".wav" then
+            local name = file:sub(1, -5)
+            sounds[name] = sound.new(file)
+            print(name)
+        end
+    end
+
+    state.switch(states[curState])
 end
 
 function saveGame()

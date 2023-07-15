@@ -7,6 +7,10 @@ function play:AABB(x1, y1, w1, h1, x2, y2, w2, h2)
            y2 < y1 + h1
 end
 
+function play:lerp(a, b, t)
+    return a + (b - a) * t
+end
+
 function play:enter()
     shopButton = graphics.newButton(10,10,100,100,"Shop")
 end
@@ -14,6 +18,18 @@ end
 function play:update(dt)
     if shopButton:isClicked() then
         state.switch(states.shop)
+    end
+
+    if self:AABB(
+        love.mouse.getX(), love.mouse.getY(), 1, 1,
+        love.graphics.getWidth() / 2 - clothinghanger:getWidth() / 2,
+        love.graphics.getHeight() / 2 - clothinghanger:getHeight() / 2,
+        clothinghanger:getWidth(),
+        clothinghanger:getHeight()
+    ) and input:down("pressed") then
+        clothinghanger.scale = self:lerp(clothinghanger.scale, 0.96, 0.5)
+    else
+        clothinghanger.scale = self:lerp(clothinghanger.scale, 1, 0.1)
     end
 end
 
