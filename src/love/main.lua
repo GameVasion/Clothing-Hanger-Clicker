@@ -21,6 +21,7 @@ function love.load()
     clothinghanger = graphics.newImage("clothing_hanger")
     clothinghanger.x = love.graphics.getWidth() / 2 
     clothinghanger.y = love.graphics.getHeight() / 2
+    clothinghanger.scale = 1
     clothinghanger.alignment = "center"
 
     curState = "menu"

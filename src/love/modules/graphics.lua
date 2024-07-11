@@ -37,24 +37,25 @@ function graphics.newImage(path)
 
         draw = function(self)
             local x, y = self.x, self.y
+            local ox, oy = 0, 0
             if self.alignment == "center" then
-                x = x - self.width / 2
-                y = y - self.height / 2
+                ox = self.width / 2
+                oy = self.height / 2
             elseif self.alignment == "top-left" then
                 -- do nothing
             elseif self.alignment == "top-right" then
-                x = x - self.width
+                ox = self.width
             elseif self.alignment == "bottom-left" then
-                y = y - self.height
+                oy = self.height
             elseif self.alignment == "bottom-right" then
-                x = x - self.width
-                y = y - self.height
+                ox = self.width
+                oy = self.height
             end
 
             -- get current color
             local r, g, b, a = love.graphics.getColor()
             love.graphics.setColor(r, g, b, self.opacity)
-            love.graphics.draw(self.image, x, y, self.rotation, self.scale, self.scale)
+            love.graphics.draw(self.image, x, y, self.rotation, self.scale, self.scale, ox, oy)
             love.graphics.setColor(r, g, b, a)
         end
     }
